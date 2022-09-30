@@ -25,8 +25,6 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        projectPath:
-        - ./
         unityVersion:
           - 2021.3.10f1
         targetPlatform:
@@ -43,8 +41,8 @@ jobs:
       - name: Cache library 💾
         uses: actions/cache@v2
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
             Library-${{ matrix.projectPath }}-
             Library-
@@ -53,7 +51,6 @@ jobs:
       - name: Build project 🚧
         uses: game-ci/unity-builder@v2.1.1
         with:
-          projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
