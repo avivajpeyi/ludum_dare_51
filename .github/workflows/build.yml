@@ -10,10 +10,10 @@ env:
 
 jobs:
   build:
-    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         projectPath:
         - ./
@@ -28,8 +28,6 @@ jobs:
       # Checkout
       - name: Checkout repository ⤵️
         uses: actions/checkout@v2
-        with:
-          lfs: false
           
       # Cache
       - name: Cache library 💾
@@ -53,29 +51,61 @@ jobs:
       - name: Upload build ⤴️
         uses: actions/upload-artifact@v2
         with:
-          name: Build
-          path: build
+          name: build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
           # ls ./build --> StandaloneOSX/ StandaloneWindows64/ ... WebGL
+          
+#       # Deploy to itch
+#       - name: Deploy to itch.io 📤
+#         uses: josephbmanley/butler-publish-itchio-action@master
+#         env:
+#           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+#           CHANNEL: ???
+#           ITCH_GAME: ????
+#           ITCH_USER: avivajpeyi
+#           PACKAGE: build/${{ matrix.targetPlatform }}
+        
           
 
 
 
-  deployHTML:
-    name: Deploy HTML App to itch.io 📤
+  deployPages: # only for WebGL
     needs: build
+    name: Deploy to Github Pages 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Download builds ⤵️
-        uses: actions/download-artifact@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
         with:
-          name: Build
-      - name: Display structure of downloaded files
-        run: ls -R
-      - name: Deploy HTML build to itch.io
-        uses: josephbmanley/butler-publish-itchio-action@master
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: html5
-          ITCH_GAME: gmtk2020
-          ITCH_USER: avivajpeyi
-          PACKAGE: WebGL
+          name: build-WebGL
+          path: build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: build/WebGL
+
+
+
+#   deployHTML: ## t
+#     name: Deploy HTML App to itch.io 📤
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download builds ⤵️
+#         uses: actions/download-artifact@v2
+#         with:
+#           name: Build
+#       - name: Display structure of downloaded files
+#         run: ls -R
+#       - name: Deploy HTML build to itch.io
+#         uses: josephbmanley/butler-publish-itchio-action@master
+#         env:
+#           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+#           CHANNEL: html5
+#           ITCH_GAME: gmtk2020
+#           ITCH_USER: avivajpeyi
+#           PACKAGE: WebGL
