@@ -53,6 +53,7 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: WebGL
+          projectPath: ludum_dare_51
 
       # Output 
       - name: Upload build ⤴️
