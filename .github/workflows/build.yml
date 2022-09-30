@@ -51,7 +51,7 @@ jobs:
             
       # Build
       - name: Build project 🚧
-        uses: webbertakken/unity-builder@v0.10
+        uses: game-ci/unity-builder@v2.1.1
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
