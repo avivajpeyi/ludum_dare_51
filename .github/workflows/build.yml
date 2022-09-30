@@ -20,20 +20,18 @@ jobs:
 
   build:
     needs: checkLicense
-    name: Build for ${{ matrix.targetPlatform }}
+    name: build WebGL
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        projectPath:
-        - ./
         unityVersion:
           - 2021.3.10f1
-        targetPlatform:
+#        targetPlatform:
 #           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
 #           - StandaloneWindows64 # Build a Windows 64-bit standalone.
 #           - StandaloneLinux64 # Build a Linux 64-bit standalone.
-          - WebGL # Build a HTML playable in browser
+#           - WebGL # Build a HTML playable in browser
     steps:
       # Checkout
       - name: Checkout repository ⤵️
@@ -43,27 +41,25 @@ jobs:
       - name: Cache library 💾
         uses: actions/cache@v2
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          path: Library
+          key: Library-build-WebGL
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
+            Library-build-
             Library-
             
       # Build
       - name: Build project 🚧
         uses: game-ci/unity-builder@v2.1.1
         with:
-          projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: WebGL
 
       # Output 
       - name: Upload build ⤴️
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-          # ls ./build --> StandaloneOSX/ StandaloneWindows64/ ... WebGL
+          name: build-WebGL
+          path: build/WebGL
           
 #       # Deploy to itch
 #       - name: Deploy to itch.io 📤
