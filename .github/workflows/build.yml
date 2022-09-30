@@ -20,7 +20,7 @@ jobs:
 
   build:
     needs: checkLicense
-    name: Build for ${{ matrix.targetPlatform }}
+    name: build WebGL
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
