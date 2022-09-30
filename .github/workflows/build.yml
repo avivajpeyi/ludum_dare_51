@@ -27,11 +27,11 @@ jobs:
       matrix:
         unityVersion:
           - 2021.3.10f1
-        targetPlatform:
+#        targetPlatform:
 #           - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
 #           - StandaloneWindows64 # Build a Windows 64-bit standalone.
 #           - StandaloneLinux64 # Build a Linux 64-bit standalone.
-          - WebGL # Build a HTML playable in browser
+#           - WebGL # Build a HTML playable in browser
     steps:
       # Checkout
       - name: Checkout repository ⤵️
@@ -42,9 +42,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
+          key: Library-build-WebGL
           restore-keys: |
-            Library-${{ matrix.targetPlatform }}-
+            Library-build-
             Library-
             
       # Build
@@ -52,15 +52,14 @@ jobs:
         uses: game-ci/unity-builder@v2.1.1
         with:
           unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
+          targetPlatform: WebGL
 
       # Output 
       - name: Upload build ⤴️
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
-          # ls ./build --> StandaloneOSX/ StandaloneWindows64/ ... WebGL
+          name: build-WebGL
+          path: build/WebGL
           
 #       # Deploy to itch
 #       - name: Deploy to itch.io 📤
