@@ -42,9 +42,11 @@ public class basic_2d_character_controller : MonoBehaviour
     void Update()
     {
         // Movement controls
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || Mathf.Abs(r2d.velocity.x) > 0.01f))
+        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && 
+        (isGrounded || 
+        Mathf.Abs(r2d.velocity.x) > 0.01f))
         {
-            moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+            moveDirection = Input.GetKey(KeyCode.LeftArrow) ? -1 : 1;
         }
         else
         {
@@ -70,7 +72,7 @@ public class basic_2d_character_controller : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
         {
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }

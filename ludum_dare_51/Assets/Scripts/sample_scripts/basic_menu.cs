@@ -8,7 +8,7 @@ public class basic_menu : MonoBehaviour
 {
     
     public void PlayGame() {
-        SceneManager.LoadScene("Other menu");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Other menu");
     }
 	
     public void Quit() {
