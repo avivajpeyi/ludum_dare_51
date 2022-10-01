@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class LevelTemplate : MonoBehaviour
 {
-    private Transform endRefTransform;
-    private Transform startRefTransform;
-    private Transform playerReference;
-    private Transform deathZone;
+    
     public LevelTemplate PrevTemplate;
+    [SerializeField] private Transform endRefTransform;
+    [SerializeField] private Transform startRefTransform;
+    [SerializeField] private Transform playerReference;
+    [SerializeField] private Transform deathZone;
+    
     
     void Awake()
     {

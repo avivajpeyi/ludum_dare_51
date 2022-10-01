@@ -16,7 +16,7 @@ public class GameOverWindow : MonoBehaviour {
     }
 
     public void Retry() {
-        Coin.ResetCoinCount();
+        TimerManager.ResetTimer();
         SceneManager.LoadScene(0);
     }
 

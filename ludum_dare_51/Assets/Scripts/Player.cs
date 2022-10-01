@@ -8,12 +8,7 @@ public class Player : MonoBehaviour
 
     public bool debugMode = false; // for debugging
     public float moveSpeed = 40f;
-    public Camera mainCamera;
-    Vector3 cameraPos;
     
-    public float deathLine = -100f;
-    
-    private static Player instance;
     [SerializeField] private LayerMask platformsLayerMask;
     
     private Rigidbody2D rigidbody2d;
@@ -23,15 +18,10 @@ public class Player : MonoBehaviour
     [SerializeField] private bool IsGrounded;
 
     private void Awake() {
-        instance = this;
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         waitForStart = true;
         isDead = false;
-        if (mainCamera)
-        {
-            cameraPos = mainCamera.transform.position;
-        }
 
         if (debugMode)
         {
@@ -46,13 +36,13 @@ public class Player : MonoBehaviour
         if (waitForStart) {
             if (Input.anyKeyDown) {
                 waitForStart = false;
+                FindObjectOfType<HourglassWindow>().StartTimer();
             }
         } 
         else
         {
-            cameraFollow();
-            // GroundedCheck(); done in fixed update for more frequent checks
-            // deathBelowScreen();
+            GroundedCheck();
+            
             
             if (IsGrounded && Input.GetKeyDown(KeyCode.Space)) {
                 float jumpVelocity = 100f;
@@ -63,38 +53,8 @@ public class Player : MonoBehaviour
             
         }
     }
-
     
-    // private void deathBelowScreen()
-    // {
-    //     // FIXME: this logic should be in the level-sections (each level section should have a death line) 
-    //     int extent = 10;
-    //     Vector3 leftBound = new Vector3(transform.position.x-extent, deathLine, transform.position.z);
-    //     Vector3 rightBound = new Vector3(leftBound.x + (extent*2), leftBound.y, leftBound.z);
-    //     Debug.DrawLine(leftBound, rightBound, Color.red);
-    //     if (transform.position.y < deathLine) {
-    //         Debug.Log("Player fell below screen");
-    //         Die();
-    //     }
-    // }
     
-    private void cameraFollow() 
-    {
-        //FIXME: This should be its own script -- and improved (eg the y follow is not great)
-        
-        if (mainCamera)
-        {
-            Vector3 targetPosition = new Vector3(transform.position.x-3, transform.position.y, cameraPos.z);
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position,  targetPosition, 0.5f);
-            
-        }
-    }
-    
-    private void FixedUpdate() // runs more often than the 
-    {
-        GroundedCheck();
-    }
-
     private void GroundedCheck()
     {
         // FIXME: this doesnt work all the time... not sure why not
@@ -114,7 +74,8 @@ public class Player : MonoBehaviour
         {
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
-            rigidbody2d.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * moveSpeed);
+            rigidbody2d.velocity = new Vector2(horizontalInput * moveSpeed * 10, 
+            verticalInput * moveSpeed);
         }
            
     }

@@ -11,9 +11,15 @@ public class LevelGenerator : MonoBehaviour {
     [SerializeField] private List<Transform> levelPartList;
     [SerializeField] private Player player;
 
+    private List<Transform> levelCache;
+    
     private LevelTemplate lastLevelTemplate;
+    private int maxLevelParts = 10;
 
-    private void Start() {
+    private void Start()
+    {
+        levelCache = new List<Transform>();
+        levelCache.Add(levelPart_Start.transform);
         lastLevelTemplate = levelPart_Start;
         for (int i = 0; i < startingSpawnLevelParts; i++) {
             SpawnLevelPart();
@@ -26,6 +32,12 @@ public class LevelGenerator : MonoBehaviour {
             // Spawn another level part
             SpawnLevelPart();
         }
+        
+        if (levelCache.Count > maxLevelParts) {
+            Destroy(levelCache[0].gameObject);
+            levelCache.RemoveAt(0);
+        }
+        
     }
 
     private void SpawnLevelPart() {
@@ -35,6 +47,7 @@ public class LevelGenerator : MonoBehaviour {
             lastLevelTemplate.GetEndPoint()
             );
         lastLevelTemplate = newLevelTemplate;
+        levelCache.Add(newLevelTemplate.transform);
     }
 
     private LevelTemplate SpawnLevelPart(Transform levelPart, Vector3 spawnPosition) {
