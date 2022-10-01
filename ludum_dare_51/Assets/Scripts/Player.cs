@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     private void Update() {
         if (isDead) return;
         if (waitForStart) {
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.anyKeyDown) {
                 waitForStart = false;
             }
         } 
