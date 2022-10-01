@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public bool allowFreeMovement = false; // for debugging
+    public bool debugMode = false; // for debugging
     public float moveSpeed = 40f;
     public Camera mainCamera;
     Vector3 cameraPos;
@@ -33,9 +33,10 @@ public class Player : MonoBehaviour
             cameraPos = mainCamera.transform.position;
         }
 
-        if (allowFreeMovement)
+        if (debugMode)
         {
             rigidbody2d.gravityScale = 0;
+            boxCollider2d.enabled = false;
         }
 
     }
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
         Debug.DrawLine(leftBound, rightBound, Color.red);
         if (transform.position.y < deathLine) {
             Debug.Log("Player fell below screen");
-            Die_Static();
+            Die();
         }
     }
     
@@ -88,13 +89,7 @@ public class Player : MonoBehaviour
             
         }
     }
-
-    private void FreeMovement() {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        rigidbody2d.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * moveSpeed);
-    }
-
+    
     private void FixedUpdate() // runs more often than the 
     {
         GroundedCheck();
@@ -114,13 +109,12 @@ public class Player : MonoBehaviour
     }
     
     private void HandleMovement() {
-        if (!allowFreeMovement)
+        rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
+        if (debugMode)
         {
-            rigidbody2d.velocity = new Vector2(+moveSpeed, rigidbody2d.velocity.y);
-        }
-        else
-        {
-            FreeMovement();
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            rigidbody2d.velocity = new Vector2(horizontalInput * moveSpeed, verticalInput * moveSpeed);
         }
            
     }
@@ -129,17 +123,14 @@ public class Player : MonoBehaviour
         return transform.position;
     }
 
-    private void Die() {
+    public void Die() {
+        if (debugMode) return;
+        
         Debug.Log("Player died");
-        // isDead = true;
-        // rigidbody2d.velocity = Vector3.zero;
+        isDead = true;
+        rigidbody2d.velocity = Vector3.zero;
+        GameOverWindow.Show();
     }
 
-    public static void Die_Static() {
-        
-        // instance.Die();
-        // GameOverWindow.Show();
-        
-    }
     
 }

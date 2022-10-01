@@ -306,13 +306,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1254496037}
     - target: {fileID: 7467788620291218694, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
-      propertyPath: levelPartList.Array.size
+      propertyPath: startingSpawnLevelParts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467788620291218694, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
+      propertyPath: levelPartList.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7467788620291218694, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
       propertyPath: levelPartList.Array.data[0]
       value: 
       objectReference: {fileID: 103047924502813012, guid: 246e95a339ea94971b14eaf716b9633a, type: 3}
+    - target: {fileID: 7467788620291218694, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
+      propertyPath: levelPartList.Array.data[1]
+      value: 
+      objectReference: {fileID: 103047924502813012, guid: 8d0721407e9c64f7ab005b0dde172b84, type: 3}
+    - target: {fileID: 7467788620291218694, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
+      propertyPath: levelPartList.Array.data[2]
+      value: 
+      objectReference: {fileID: 103047924502813012, guid: 577884af529fd41e79951da121ed51c0, type: 3}
     - target: {fileID: 7467788620291218695, guid: 305d49811bbfb4e2596efe4939a474f3, type: 3}
       propertyPath: m_Name
       value: LevelGenerator
@@ -372,7 +384,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 596765301504684653, guid: 88e14717a492f4f8e92fe4a8c7c11c07, type: 3}
       propertyPath: moveSpeed
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 596765301504684653, guid: 88e14717a492f4f8e92fe4a8c7c11c07, type: 3}
       propertyPath: mainCamera

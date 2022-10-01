@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour {
 
     private const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 200f;
+    public int startingSpawnLevelParts = 5;
 
     [SerializeField] private LevelTemplate levelPart_Start;
     [SerializeField] private List<Transform> levelPartList;
@@ -14,8 +15,6 @@ public class LevelGenerator : MonoBehaviour {
 
     private void Start() {
         lastLevelTemplate = levelPart_Start;
-
-        int startingSpawnLevelParts = 5;
         for (int i = 0; i < startingSpawnLevelParts; i++) {
             SpawnLevelPart();
         }

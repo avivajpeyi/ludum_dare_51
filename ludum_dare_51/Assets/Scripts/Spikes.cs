@@ -9,7 +9,7 @@ public class Spikes : MonoBehaviour {
         if (player != null) {
             // Player hit Spikes
             Debug.Log("Player hit Spikes --> ded");
-            Player.Die_Static();
+            player.Die();
             
         }
     }

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bee8ccb8678455b8a911b452427dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrevTemplate: {fileID: 0}
 --- !u!1001 &162369937140595088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,23 +141,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 240123872391899936, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
   m_PrefabInstance: {fileID: 162369937140595088}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &78195047500419917 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 240123872391899869, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
-  m_PrefabInstance: {fileID: 162369937140595088}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6474435232737912805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 78195047500419917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59c500208d19421da473355e7bd59b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &347500634631249241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,23 +231,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 240123872391899936, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
   m_PrefabInstance: {fileID: 347500634631249241}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &542550300438411140 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 240123872391899869, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
-  m_PrefabInstance: {fileID: 347500634631249241}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2153257170661294722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542550300438411140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59c500208d19421da473355e7bd59b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &3584725642206395052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -350,7 +317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8487744339876058626, guid: ea80e4aa4ef6b4bcd8a0d80f73e5067d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.31
+      value: 5.7
       objectReference: {fileID: 0}
     - target: {fileID: 8487744339876058626, guid: ea80e4aa4ef6b4bcd8a0d80f73e5067d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -476,23 +443,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
---- !u!1 &4730483282238058496 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 240123872391899869, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
-  m_PrefabInstance: {fileID: 4824228318938897117}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7892128388315518882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4730483282238058496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59c500208d19421da473355e7bd59b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &4730483282238059005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 240123872391899936, guid: b4dbad33f1f49434a8fdc3c9e661172b, type: 3}
@@ -527,11 +477,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8487744339876058626, guid: ea80e4aa4ef6b4bcd8a0d80f73e5067d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60.9
+      value: 61.25
       objectReference: {fileID: 0}
     - target: {fileID: 8487744339876058626, guid: ea80e4aa4ef6b4bcd8a0d80f73e5067d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 33.9
+      value: 33.46
       objectReference: {fileID: 0}
     - target: {fileID: 8487744339876058626, guid: ea80e4aa4ef6b4bcd8a0d80f73e5067d, type: 3}
       propertyPath: m_LocalPosition.z
