@@ -8,7 +8,7 @@ public class LevelTemplate : MonoBehaviour
     private Transform endRefTransform;
     private Transform startRefTransform;
     private Transform playerReference;
-
+    private Transform deathZone;
     public LevelTemplate PrevTemplate;
     
     void Awake()
@@ -16,8 +16,10 @@ public class LevelTemplate : MonoBehaviour
         endRefTransform = transform.Find("EndPosition");
         startRefTransform = transform.Find("StartPosition");
         playerReference = transform.Find("PlayerReference");
-        // endRefTransform.GetComponent<SpriteRenderer>().enabled = false;
-        // startRefTransform.GetComponent<SpriteRenderer>().enabled = false;
+        deathZone = transform.Find("DeathZone");
+        endRefTransform.GetComponent<SpriteRenderer>().enabled = false;
+        startRefTransform.GetComponent<SpriteRenderer>().enabled = false;
+        deathZone.GetComponent<SpriteRenderer>().enabled = false;
         playerReference.gameObject.SetActive(false);
     }
 
@@ -27,14 +29,22 @@ public class LevelTemplate : MonoBehaviour
             AlignToPreviousLevelPart(PrevTemplate);
     }
 
-    private void Update()
+    private void OnDrawGizmos()
     {
-        Vector2 ep = GetEndPoint();
-        Vector2 sp = GetStartPoint();
-        Debug.DrawLine(ep, ep + (Vector2.up*2), Color.blue);
-        Debug.DrawLine(sp, sp + (Vector2.up*2), Color.blue);
+        // To help debug
+        // Turn on in the editor 
+        // https://medium.com/geekculture/how-to-do-visual-debugging-editing-using-gizmos-in-unity-c-e3b8ea711b30
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.red;
+            BoxCollider2D boxCollider2D = deathZone.GetComponent<BoxCollider2D>();
+            Gizmos.DrawCube(boxCollider2D.bounds.center, boxCollider2D.bounds.size);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(GetEndPoint(), 2f);
+            Gizmos.DrawSphere(GetStartPoint(), 2f);
+        }
     }
-
+    
     public Transform GetStartTransform()
     {
         return startRefTransform;

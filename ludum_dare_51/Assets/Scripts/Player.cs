@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         {
             cameraFollow();
             // GroundedCheck(); done in fixed update for more frequent checks
-            deathBelowScreen();
+            // deathBelowScreen();
             
             if (IsGrounded && Input.GetKeyDown(KeyCode.Space)) {
                 float jumpVelocity = 100f;
@@ -65,18 +65,18 @@ public class Player : MonoBehaviour
     }
 
     
-    private void deathBelowScreen()
-    {
-        // FIXME: this logic should be in the level-sections (each level section should have a death line) 
-        int extent = 10;
-        Vector3 leftBound = new Vector3(transform.position.x-extent, deathLine, transform.position.z);
-        Vector3 rightBound = new Vector3(leftBound.x + (extent*2), leftBound.y, leftBound.z);
-        Debug.DrawLine(leftBound, rightBound, Color.red);
-        if (transform.position.y < deathLine) {
-            Debug.Log("Player fell below screen");
-            Die();
-        }
-    }
+    // private void deathBelowScreen()
+    // {
+    //     // FIXME: this logic should be in the level-sections (each level section should have a death line) 
+    //     int extent = 10;
+    //     Vector3 leftBound = new Vector3(transform.position.x-extent, deathLine, transform.position.z);
+    //     Vector3 rightBound = new Vector3(leftBound.x + (extent*2), leftBound.y, leftBound.z);
+    //     Debug.DrawLine(leftBound, rightBound, Color.red);
+    //     if (transform.position.y < deathLine) {
+    //         Debug.Log("Player fell below screen");
+    //         Die();
+    //     }
+    // }
     
     private void cameraFollow() 
     {
