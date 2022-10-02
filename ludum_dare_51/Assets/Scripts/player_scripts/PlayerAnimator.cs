@@ -31,6 +31,7 @@ namespace Special2dPlayerController {
             HandleWallSlideEffects();
             SetParticleColor(Vector2.down, _moveParticles);
             HandleAnimations();
+            HandleJumpTrailRenderer();
         }
 
         private void HandleSpriteFlipping() {
@@ -170,7 +171,8 @@ namespace Special2dPlayerController {
         [SerializeField] private AudioClip _landClip, _jumpClip, _doubleJumpClip;
         [SerializeField] private ParticleSystem _jumpParticles, _launchParticles, _doubleJumpParticles, _landParticles;
         [SerializeField] private Transform _jumpParticlesParent;
-
+        [SerializeField] private TrailRenderer _jumpTrialRenderer;
+        
         private bool _jumpTriggered;
         private bool _landed;
         private bool _grounded;
@@ -207,6 +209,20 @@ namespace Special2dPlayerController {
 
             if (_grounded) _moveParticles.Play();
             else _moveParticles.Stop();
+        }
+
+        private void HandleJumpTrailRenderer()
+        {
+            if (_grounded || _isOnWall)
+            {
+                // turn off the trail renderer
+                _jumpTrialRenderer.emitting = false;
+            }
+            else
+            {
+                // turn on the trail renderer
+                _jumpTrialRenderer.emitting = true;
+            }
         }
 
         #endregion
@@ -317,8 +333,9 @@ namespace Special2dPlayerController {
                 var hit = _groundHits[i];
                 if (!hit.collider || hit.collider.isTrigger || !hit.transform.TryGetComponent(out SpriteRenderer r)) continue;
                 var color = r.color;
+                color = Color.white;
                 _currentGradient = new ParticleSystem.MinMaxGradient(color * 0.9f, color * 1.2f);
-                SetColor(system);
+                SetColor(system); 
                 return;
             }
         }

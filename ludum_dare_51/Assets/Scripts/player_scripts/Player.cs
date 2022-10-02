@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
 
     public GameObject deathFx;
     public bool debugMode = false; // for debugging
-    public float moveSpeed = 40f;
     
     [SerializeField] private LayerMask platformsLayerMask;
     
@@ -24,18 +23,22 @@ public class Player : MonoBehaviour
     private PlayerController myMovementController;
     private PlayerAnimator myAnimator;
     
+    private HourglassWindow myHourglassWindow;
+    
 
     private void Awake() {
         instance = this;
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         collider2d = transform.GetComponent<CapsuleCollider2D>();
-        DisablePlayer();
+        
         isDead = false;
+
+        myHourglassWindow = FindObjectOfType<HourglassWindow>();
 
         myAnimator = GetComponentInChildren<PlayerAnimator>();
         myInputHandler = GetComponent<PlayerInput>();
         myMovementController = GetComponent<PlayerController>();
-
+        DisablePlayer();
         if (debugMode)
         {
             rigidbody2d.gravityScale = 0;
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
     
     void EnablePlayer()
     {
-        waitForStart = false;
+        
         myInputHandler.enabled = true;
         myMovementController.enabled = true;
         myAnimator.enabled = true;
@@ -65,8 +68,9 @@ public class Player : MonoBehaviour
         if (waitForStart) {
             if (Input.anyKeyDown)
             {
-                EnablePlayer();
-                FindObjectOfType<HourglassWindow>().StartTimer();
+                if (!debugMode) EnablePlayer();
+                if (myHourglassWindow != null) myHourglassWindow.StartTimer();
+                waitForStart = false;
             }
         } 
         else
@@ -76,8 +80,8 @@ public class Player : MonoBehaviour
             {
                 float horizontalInput = Input.GetAxis("Horizontal");
                 float verticalInput = Input.GetAxis("Vertical");
-                rigidbody2d.velocity = new Vector2(horizontalInput * moveSpeed * 10, 
-                    verticalInput * moveSpeed);
+                rigidbody2d.velocity = new Vector2(horizontalInput * 40, 
+                    verticalInput * 40);
             }
         }
     }
