@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LevelDoor : MonoBehaviour
 {
-    
+    [SerializeField] private bool doorIsOpen = true;
     [SerializeField] private GameObject door;
-
     [SerializeField] private Transform openDoorRef;
     [SerializeField] private Transform closedDoorRef;
     Vector3 openPosition; 
     Vector3 closedPosition;
+    
     
     
     // Start is called before the first frame update
@@ -26,11 +26,13 @@ public class LevelDoor : MonoBehaviour
     
     public void Open()
     {
+        doorIsOpen = true;
         StartCoroutine(LerpDoor(closedPosition, openPosition, 0.3f));
     }
 
     public void Close()
     {
+        doorIsOpen = false;
         StartCoroutine(LerpDoor(openPosition, closedPosition, 0.3f));
     }
     
