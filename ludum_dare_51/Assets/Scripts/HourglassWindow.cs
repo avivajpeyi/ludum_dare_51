@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(TimerController))]
+
 public class HourglassWindow : MonoBehaviour {
 
     private static HourglassWindow instance;

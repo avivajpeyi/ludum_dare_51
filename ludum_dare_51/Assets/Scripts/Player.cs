@@ -6,6 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
+    public static Player instance;
+
     public bool debugMode = false; // for debugging
     public float moveSpeed = 40f;
     
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool IsGrounded;
 
     private void Awake() {
+        instance = this;
+
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         boxCollider2d = transform.GetComponent<BoxCollider2D>();
         waitForStart = true;
