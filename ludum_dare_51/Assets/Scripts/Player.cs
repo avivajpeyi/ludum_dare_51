@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     public static Player instance;
 
+    public GameObject deathFx;
     public bool debugMode = false; // for debugging
     public float moveSpeed = 40f;
     
@@ -94,6 +95,14 @@ public class Player : MonoBehaviour
         Debug.Log("Player died");
         isDead = true;
         rigidbody2d.velocity = Vector3.zero;
+        // instantiate death fx
+        Instantiate(deathFx, transform.position, Quaternion.identity);
+        // hide player sprite
+        // loop over all child sprite renderers and disable them
+        foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>()) {
+            spriteRenderer.enabled = false;
+        }
+        
         GameOverWindow.Show();
     }
 

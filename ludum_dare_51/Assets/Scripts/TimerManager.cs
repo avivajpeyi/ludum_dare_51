@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimerManager : MonoBehaviour {
 
     public static int timeRemaining = 0;
+    public GameObject particleFx;
 
     private void OnTriggerEnter2D(Collider2D collider) {
         Player player = collider.GetComponent<Player>();
@@ -12,6 +13,7 @@ public class TimerManager : MonoBehaviour {
         {
             ResetTimer();
             HourglassWindow.ResetTimer();
+            Instantiate(particleFx, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

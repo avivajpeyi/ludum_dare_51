@@ -318,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d63937bfbf94fb2acb10f951eb4ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathFx: {fileID: 3164565573567085564, guid: d950fd76264b74216868aa76237744c8, type: 3}
   debugMode: 0
   moveSpeed: 40
   platformsLayerMask:
