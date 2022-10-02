@@ -29741,7 +29741,7 @@ GameObject:
   - component: {fileID: 3836054527727189974}
   - component: {fileID: 3836054527727189971}
   m_Layer: 7
-  m_Name: Player
+  m_Name: PlayerJustMovement (dont use in final game)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
