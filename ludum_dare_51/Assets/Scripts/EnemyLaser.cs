@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class EnemyLaser : MonoBehaviour
 {
-
     private float moveSpeed = 30f;
 
     private Rigidbody2D rigidBody;
 
     private Player player;
+
+    private Monster monster;
 
     private Vector2 moveDirection;
 
@@ -20,10 +21,18 @@ public class EnemyLaser : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody2D>();
         player = GameObject.FindObjectOfType<Player>();
+        //monster = GameObject.FindObjectOfType<Monster>(); // FIXME will this be a problem with multiple monsters?
+        // as long as there is homogeneity in monsters shooting mode for each level, it should be OK?
 
+        //if (monster.aimStraight) //shooting mode: shoot straight
+        //{ 
+        //    moveDirection = new Vector2 (-1, 0); // shoot left at all times
+        //}
+        //else //can make this into an elseif if we have more 'shooting modes'
+        //{
         playerPos = (player.transform.position - transform.position).normalized;
-
-        moveDirection = new Vector2 (playerPos.x, 0);
+        moveDirection = playerPos;
+        //}
 
         rigidBody.velocity = moveDirection * moveSpeed;
 
@@ -37,8 +46,8 @@ public class EnemyLaser : MonoBehaviour
         {
             // Player hit laser
             Debug.Log("Player hit with laser ---> ded");
+            Destroy(gameObject);
             player.Die();
-
         }
     }
 }
