@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class LevelDoor : MonoBehaviour
 {
-    [SerializeField] private bool doorIsOpen = true;
+
     [SerializeField] private GameObject door;
     [SerializeField] private Transform openDoorRef;
     [SerializeField] private Transform closedDoorRef;
     Vector3 openPosition; 
     Vector3 closedPosition;
+    public bool stayClosed = false;
     
     
     
@@ -21,18 +22,15 @@ public class LevelDoor : MonoBehaviour
         Open();
     }
     
-
-    
     
     public void Open()
     {
-        doorIsOpen = true;
-        StartCoroutine(LerpDoor(closedPosition, openPosition, 0.3f));
+        if (!stayClosed)
+            StartCoroutine(LerpDoor(closedPosition, openPosition, 0.3f));
     }
 
     public void Close()
     {
-        doorIsOpen = false;
         StartCoroutine(LerpDoor(openPosition, closedPosition, 0.3f));
     }
     
@@ -49,8 +47,6 @@ public class LevelDoor : MonoBehaviour
         }
         door.transform.position = endValue;
     }
-    
-    
     
     
 }

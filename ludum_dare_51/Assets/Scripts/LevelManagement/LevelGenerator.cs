@@ -7,27 +7,27 @@ public class LevelGenerator : MonoBehaviour {
     private const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 200f;
     public int startingSpawnLevelParts = 5;
 
-    [SerializeField] private LevelTemplate levelPart_Start;
+    [SerializeField] private LevelRoom levelPart_Start;
     [SerializeField] private List<Transform> levelPartList;
     [SerializeField] private Player player;
 
     private List<Transform> levelCache;
     
-    private LevelTemplate lastLevelTemplate;
+    private LevelRoom _lastLevelRoom;
     private int maxLevelParts = 10;
 
     private void Start()
     {
         levelCache = new List<Transform>();
         levelCache.Add(levelPart_Start.transform);
-        lastLevelTemplate = levelPart_Start;
+        _lastLevelRoom = levelPart_Start;
         for (int i = 0; i < startingSpawnLevelParts; i++) {
             SpawnLevelPart();
         }
     }
 
     private void Update() {
-        if (Vector3.Distance(player.GetPosition(), lastLevelTemplate.GetEndPoint()) < 
+        if (Vector3.Distance(player.GetPosition(), _lastLevelRoom.GetEndPoint()) < 
             PLAYER_DISTANCE_SPAWN_LEVEL_PART) {
             // Spawn another level part
             SpawnLevelPart();
@@ -42,18 +42,18 @@ public class LevelGenerator : MonoBehaviour {
 
     private void SpawnLevelPart() {
         Transform chosenLevelPart = levelPartList[Random.Range(0, levelPartList.Count)];
-        LevelTemplate newLevelTemplate = SpawnLevelPart(
+        LevelRoom newLevelRoom = SpawnLevelPart(
             chosenLevelPart, 
-            lastLevelTemplate.GetEndPoint()
+            _lastLevelRoom.GetEndPoint()
             );
-        lastLevelTemplate = newLevelTemplate;
-        levelCache.Add(newLevelTemplate.transform);
+        _lastLevelRoom = newLevelRoom;
+        levelCache.Add(newLevelRoom.transform);
     }
 
-    private LevelTemplate SpawnLevelPart(Transform levelPart, Vector3 spawnPosition) {
+    private LevelRoom SpawnLevelPart(Transform levelPart, Vector3 spawnPosition) {
         Transform levelPartTransform = Instantiate(levelPart, spawnPosition, Quaternion.identity);
-        LevelTemplate newLevelPart = levelPartTransform.GetComponent<LevelTemplate>();
-        newLevelPart.AlignToPreviousLevelPart(lastLevelTemplate);
+        LevelRoom newLevelPart = levelPartTransform.GetComponent<LevelRoom>();
+        newLevelPart.AlignToPreviousLevelPart(_lastLevelRoom);
         return newLevelPart;
     }
 

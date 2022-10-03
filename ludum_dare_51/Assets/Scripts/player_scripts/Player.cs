@@ -11,79 +11,78 @@ public class Player : MonoBehaviour
 
     public GameObject deathFx;
     public bool debugMode = false; // for debugging
-    
-    [SerializeField] private LayerMask platformsLayerMask;
-    
     private Rigidbody2D rigidbody2d;
     private CapsuleCollider2D collider2d;
-    private bool waitForStart;
     private bool isDead;
-    
     private PlayerInput myInputHandler;
     private PlayerController myMovementController;
     private PlayerAnimator myAnimator;
-    
-    private HourglassWindow myHourglassWindow;
-    
+    private GameEventManager _gameEventManager;
 
-    private void Awake() {
+    private void OnEnable()
+    {
+        _gameEventManager.OnStartGame += EnablePlayer;
+        _gameEventManager.OnEndGame += DisablePlayer;
+    }
+    
+    private void OnDisable()
+    {
+        _gameEventManager.OnStartGame -= EnablePlayer;
+        _gameEventManager.OnEndGame -= DisablePlayer;
+    }
+
+    private void Awake()
+    {
+        SetInitialreferences();
+        DisablePlayer(); // disable until the game manager starts game
+    }
+
+
+    void SetInitialreferences()
+    {
         instance = this;
+        isDead = false;
         rigidbody2d = transform.GetComponent<Rigidbody2D>();
         collider2d = transform.GetComponent<CapsuleCollider2D>();
-        
-        isDead = false;
-
-        myHourglassWindow = FindObjectOfType<HourglassWindow>();
-
         myAnimator = GetComponentInChildren<PlayerAnimator>();
         myInputHandler = GetComponent<PlayerInput>();
         myMovementController = GetComponent<PlayerController>();
-        DisablePlayer();
+        _gameEventManager = FindObjectOfType<GameEventManager>();
         if (debugMode)
         {
             rigidbody2d.gravityScale = 0;
             collider2d.enabled = false;
         }
-
     }
-    
-    void EnablePlayer()
+
+    public void EnablePlayer()
     {
-        
         myInputHandler.enabled = true;
         myMovementController.enabled = true;
         myAnimator.enabled = true;
     }
     
-    void DisablePlayer()
+    public  void DisablePlayer()
     {
-        waitForStart = true;
         myInputHandler.enabled = false;
         myMovementController.enabled = false;
         myAnimator.enabled = false;
     }
 
     private void Update() {
+        
+        
         if (isDead) return;
-        if (waitForStart) {
-            if (Input.anyKeyDown)
-            {
-                if (!debugMode) EnablePlayer();
-                if (myHourglassWindow != null) myHourglassWindow.StartTimer();
-                waitForStart = false;
-            }
-        } 
-        else
-        {
+        
             
-            if (debugMode)
-            {
-                float horizontalInput = Input.GetAxis("Horizontal");
-                float verticalInput = Input.GetAxis("Vertical");
-                rigidbody2d.velocity = new Vector2(horizontalInput * 40, 
-                    verticalInput * 40);
-            }
+        if (debugMode)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+            rigidbody2d.velocity = new Vector2(horizontalInput * 40, 
+                verticalInput * 40);
         }
+        
     }
     
     
@@ -98,15 +97,13 @@ public class Player : MonoBehaviour
         Debug.Log("Player died");
         isDead = true;
         rigidbody2d.velocity = Vector3.zero;
-        // instantiate death fx
         Instantiate(deathFx, transform.position, Quaternion.identity);
         // loop over all child sprite renderers and disable them
         foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>()) {
             spriteRenderer.enabled = false;
         }
         DisablePlayer();
-        
-        GameOverWindow.Show();
+        if (_gameEventManager!= null) _gameEventManager.RunEndGame();
     }
 
     

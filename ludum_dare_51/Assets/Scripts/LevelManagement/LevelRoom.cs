@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelTemplate : MonoBehaviour
+public class LevelRoom : MonoBehaviour
 {
     
-    public LevelTemplate PrevTemplate;
+    public LevelRoom prevRoom;
     private Transform endRefTransform;
     private Transform startRefTransform;
     private Transform playerReference;
@@ -15,7 +15,10 @@ public class LevelTemplate : MonoBehaviour
 
 
     private GameObject timer;
-    private LevelDoor[] doors;
+    [SerializeField] private LevelDoor startDoor;
+    [SerializeField] private LevelDoor endDoor;
+    private GameEventManager _gameEventManager;
+    
     
     void Awake()
     {
@@ -29,12 +32,15 @@ public class LevelTemplate : MonoBehaviour
     
     void SetReferences()
     {
+        _gameEventManager = FindObjectOfType<GameEventManager>();
         endRefTransform = transform.Find("EndPosition");
+        endDoor = endRefTransform.GetComponentInChildren<LevelDoor>();
         startRefTransform = transform.Find("StartPosition");
+        startDoor = startRefTransform.GetComponentInChildren<LevelDoor>();
         playerReference = transform.Find("PlayerReference");
         deathZone = transform.Find("DeathZone");
         background = transform.Find("Background");
-        doors = transform.GetComponentsInChildren<LevelDoor>();
+        
         List<Transform>  requiredTrans = new List<Transform>{
             endRefTransform, startRefTransform, playerReference,
             deathZone, background
@@ -48,29 +54,36 @@ public class LevelTemplate : MonoBehaviour
         }
     }
 
-    public void StartLevel()
+    private void OnEnable()
     {
-        foreach (LevelDoor door in doors)
-        {
-            door.Close();
-        }
-        // start 10 second timer
-        // end level after 10 second timer
-        Debug.Log("Start level timer");
+        _gameEventManager.OnStartLevel += CloseLevelDoors;
+        _gameEventManager.OnEndLevel += OpenExitDoor;
+    }
+
+    private void OnDisable()
+    {
+        _gameEventManager.OnStartLevel -= CloseLevelDoors;
+        _gameEventManager.OnEndLevel -= OpenExitDoor;
+    }
+
+
+    public void CloseLevelDoors()
+    {
+        startDoor.Close();
+        endDoor.Close();
     }
     
-    public void EndLevel()
+    public void OpenExitDoor()
     {
-        foreach (LevelDoor door in doors)
-        {
-            door.Open();
-        }
+        endDoor.Open();
+        startDoor.Open();
+        Debug.Log("Open " + name + " ExitDoor" );
     }
 
     private void Start()
     {
-        if (PrevTemplate!=null)
-            AlignToPreviousLevelPart(PrevTemplate);
+        if (prevRoom!=null)
+            AlignToPreviousLevelPart(prevRoom);
     }
 
     private void OnDrawGizmos()
@@ -109,7 +122,7 @@ public class LevelTemplate : MonoBehaviour
         return endRefTransform.position;
     }
 
-    public void AlignToPreviousLevelPart(LevelTemplate previous)
+    public void AlignToPreviousLevelPart(LevelRoom previous)
     {
         Transform curStart = startRefTransform;
         Transform prevEnd = previous.GetEndTransform();

@@ -7,36 +7,47 @@ using UnityEngine.TextCore;
 [RequireComponent(typeof(LevelUI))]
 public class LevelTimer : MonoBehaviour
 {
-    
-    private int timeLeft = 10;
-    private bool timeUp = false;
+    public int levelTime = 10;
+    private int timeLeft;
     private LevelUI levelUI;
+    private GameEventManager _gameEventManager;
+    
+    
     
 
     private void Awake()
     {
+        _gameEventManager = FindObjectOfType<GameEventManager>();
         levelUI = GetComponent<LevelUI>();
     }
 
-    public void StartTimer(){
+    private void OnEnable()
+    {
+        _gameEventManager.OnStartLevel += StartTimer;
+    }
+    
+    private void OnDisable()
+    {
+        _gameEventManager.OnStartLevel -= StartTimer;
+    }
+
+    public void StartTimer()
+    {
+        Debug.Log("Start timer");
+        timeLeft = levelTime;
         StartCoroutine(DecreaseTime());
     }
     public IEnumerator DecreaseTime()
     {
-        while (timeLeft > 0)
+        while (timeLeft > 0 && !_gameEventManager.isGameOver)
         {
             timeLeft--;
             levelUI.updateTime(timeLeft);
             yield return new WaitForSeconds(1);
         }
         levelUI.updateTime(0);
-        timeUp = true;
+        _gameEventManager.RunEndLevel();
     }
-
-
-    public void TimeupFx()
-    {
-        // spawn particles or smth
-    }
+    
     
 }

@@ -8,12 +8,12 @@ public class SmoothCamera : MonoBehaviour {
     private Vector3 velocity = Vector3.zero;
     public Transform target;
     private Camera _camera;
-    private Player p;
+    private GameObject p;
 
     private void Awake()
     {
         _camera = Camera.main;
-        p = FindObjectOfType<Player>();
+        p = GameObject.FindGameObjectWithTag("Player");
         if (p != null)
             target = p.transform;
     }
