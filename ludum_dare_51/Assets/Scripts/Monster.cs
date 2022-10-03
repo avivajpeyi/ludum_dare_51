@@ -36,17 +36,12 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // check if time to fire
-        if (monsterAlive && Time.time > nextFire)
+        // if monster is alive
+        if (monsterAlive)
         {
             player = GameObject.FindObjectOfType<Player>();
             if (player != null)
             {
-                //FIXME
-                //lines 50-60 should be in aimAtPlayer part of if statement
-                // but if statement not functioning properly for some reason
-                // both pieces of code work fine on their own
-
                 //rotate the monster
                 Vector3 targ = player.transform.position;
                 targ.z = 0f;
@@ -55,24 +50,40 @@ public class Monster : MonoBehaviour
                 targ.y = targ.y - objectPos.y;
 
                 float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-                
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-                // instantiate laser with the above rotation
-                Instantiate(laser, transform.position, Quaternion.Euler(new Vector3(0, 0, angle)));
 
-                if (aimAtPlayer == true)  
+                transform.rotation = Quaternion.RotateTowards(
+                    transform.rotation,
+                    Quaternion.Euler(new Vector3(0, 0, angle)),
+                    20f);
+
+                // check if time to fire
+                if (Time.time > nextFire)
                 {
-                    // lines 50-60
-                }
-                else if (aimStraight == true)
-                {
+
+                    //FIXME
+                    // line 69 should be in aimAtPlayer part of if statement
+                    // but if statement not functioning properly for some reason
+                    // both pieces of code (lines 69 and 78) work fine on their own
+
                     // instantiate laser with the above rotation
-                    //Instantiate(laser, transform.position, Quaternion.identity);
+                    Instantiate(laser, transform.position, Quaternion.Euler(new Vector3(0, 0, angle)));
+
+                    if (aimAtPlayer == true)
+                    {
+                        // lines 69
+                    }
+                    else if (aimStraight == true)
+                    {
+                        // instantiate laser with the above rotation
+                        //Instantiate(laser, transform.position, Quaternion.identity);
+                    }
+                    nextFire = Time.time + fireRate;
                 }
             }
-
-            nextFire = Time.time + fireRate;
         }
     }
+
+
+
 
 }
