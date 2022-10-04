@@ -6,14 +6,19 @@ using Random = UnityEngine.Random;
 
 public class Turret : MonoBehaviour
 {
-    public GameObject projectile;
-    public float turretRotationSpeed = 20f;
-    
-    public float minRotationoAngle = -90f;
-    public float maxRotationAngle = 90f;
-    private GameObject player;
-
     public float projectileSpeed = 30f;
+    public GameObject projectile;
+    public float rotationSpeed = 20f;
+    
+    [SerializeField] private float targetAngle = 0;
+    public float offsetAngle = 90f;
+    [SerializeField] private float startAngle;
+    private GameObject player;
+    private float minAngle = 0;
+    private float maxAngle = 0;
+    
+
+   
     public float randomDelay = 0f;
     public float fireRate = 4f;
     float nextFire;
@@ -30,7 +35,35 @@ public class Turret : MonoBehaviour
         _manager = FindObjectOfType<GameEventManager>();
         nextFire = Time.time + Random.Range(0, randomDelay);
         isOn = true;
+        startAngle = GetAngleToPosition(transform.up - transform.position) + offsetAngle;
+        float bound1 = startAngle + 90;
+        float bound2 = startAngle - 90;
+        minAngle = Mathf.Min(bound1, bound2);
+        maxAngle = Mathf.Max(bound1, bound2);
+        targetAngle = startAngle;
     }
+    
+    
+    Vector3 makeLineFromAngle(float angle)
+    {
+        return transform.position + Quaternion.Euler(0, 0, angle) * Vector3.up * 5;
+    }
+
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        // draw a line along the angle
+        Gizmos.DrawLine(transform.position, makeLineFromAngle(startAngle));
+        
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(makeLineFromAngle(minAngle), makeLineFromAngle(maxAngle));
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, makeLineFromAngle(targetAngle));
+    }
+
+    
 
     private void UpdateTimeForNextShot()
     {
@@ -56,39 +89,28 @@ public class Turret : MonoBehaviour
 
     public void turnOff() {isOn = false; }
 
+    
+    float GetAngleToPosition(Vector2 p )
+    {
+        float a = Mathf.Atan2(p.y, p.x ) * Mathf.Rad2Deg;
+        return a - offsetAngle;
+    }
 
+   
+    
     public void RotateTowardsPlayer()
     {
         if (player==null) return;
-        // //rotate the 
-        // Vector3 targ = player.transform.position;
-        // targ.z = 0f;
-        // Vector3 objectPos = transform.position;
-        // targ.x -= objectPos.x;
-        // targ.y -= objectPos.y;
-        //
-        // float angle = Mathf.Atan2(targ.y, targ.x) * Mathf.Rad2Deg;
-        // angle = Mathf.Clamp(angle, minRotationoAngle, maxRotationAngle);
-        //
-        // transform.rotation = Quaternion.RotateTowards(
-        //     transform.rotation,
-        //     Quaternion.Euler(new Vector3(0, 0, angle)),
-        //     20f);
-        //
-        // rotate towards player
-        // float strength = 0.5f;
-        // Quaternion targetRotation = Quaternion.LookRotation (
-        //     player.transform.position - transform.position);
-        // float str = Mathf.Min (strength * Time.deltaTime, 1);
-        // transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, str);
+        targetAngle = GetAngleToPosition(player.transform.position - transform.position);
+        
+        if (Mathf.Abs(targetAngle - startAngle) > 90f)
+            targetAngle = startAngle;
+        // it would be cool if we can get the targetAngle to be the max/min angle if it's outside the range
+        // but I don't know how to do that yet
 
-        Vector3 t = player.transform.position;
-        float SPEED = 4f;
-        float angle = Mathf.Atan2(t.y - transform.position.y, t.x -transform.position.x ) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, SPEED * Time.deltaTime);
-        
-        
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+        targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     void Shoot()
@@ -112,7 +134,8 @@ public class Turret : MonoBehaviour
         // check if time to fire
         if (Time.time > nextFire)
         {
-            Shoot();
+            Shoot(); 
+            // for rotate tp player, only shoot if player in sight
         }
     }
 
