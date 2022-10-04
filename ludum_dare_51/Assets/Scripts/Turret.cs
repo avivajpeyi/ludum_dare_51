@@ -35,7 +35,9 @@ public class Turret : MonoBehaviour
         _manager = FindObjectOfType<GameEventManager>();
         nextFire = Time.time + Random.Range(0, randomDelay);
         isOn = true;
-        startAngle = GetAngleToPosition(transform.up - transform.position) + offsetAngle;
+        
+        startAngle = GetAngleToPosition(transform.up);
+
         float bound1 = startAngle + 90;
         float bound2 = startAngle - 90;
         minAngle = Mathf.Min(bound1, bound2);
