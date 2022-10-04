@@ -28,6 +28,8 @@ public class Turret : MonoBehaviour
 
     public bool aimAtPlayer = true;
 
+    private bool playerInSight = true;
+
 
     private void Awake()
     {        
@@ -98,17 +100,24 @@ public class Turret : MonoBehaviour
         return a - offsetAngle;
     }
 
-   
-    
+
+
     public void RotateTowardsPlayer()
     {
-        if (player==null) return;
+        if (player == null) return;
         targetAngle = GetAngleToPosition(player.transform.position - transform.position);
-        
+        playerInSight = true;
+
         if (Mathf.Abs(targetAngle - startAngle) > 90f)
+        {
             targetAngle = startAngle;
+            playerInSight = false;
+        }
+        
         // it would be cool if we can get the targetAngle to be the max/min angle if it's outside the range
         // but I don't know how to do that yet
+        // why do you want to do that? Looks kinda weird...
+        // this worked: targetAngle = minAngle; (assuming this is what you meant) -AP
 
         Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
         transform.rotation = Quaternion.RotateTowards(transform.rotation, 
@@ -134,10 +143,9 @@ public class Turret : MonoBehaviour
   
 
         // check if time to fire
-        if (Time.time > nextFire)
+        if (Time.time > nextFire && playerInSight)
         {
             Shoot(); 
-            // for rotate tp player, only shoot if player in sight
         }
     }
 
