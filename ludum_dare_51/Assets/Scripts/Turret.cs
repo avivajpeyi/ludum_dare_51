@@ -16,6 +16,8 @@ public class Turret : MonoBehaviour
     private GameObject player;
     private float minAngle = 0;
     private float maxAngle = 0;
+
+    public Transform muzzleTip;
     
 
    
@@ -127,7 +129,7 @@ public class Turret : MonoBehaviour
     void Shoot()
     {
         // see https://stackoverflow.com/questions/59026221/unity3d-help-shooting-object-in-direction-of-player-rotation
-        GameObject shotLaser = Instantiate(projectile, transform.position, transform.rotation);
+        GameObject shotLaser = Instantiate(projectile, muzzleTip.position, transform.rotation);
         shotLaser.GetComponent<Projectile>().moveSpeed = projectileSpeed;
         UpdateTimeForNextShot();
     }
