@@ -13,7 +13,8 @@ public class PlatformMovement : MonoBehaviour
     
     [SerializeField] private bool _looped;
     [SerializeField] private bool _ascending;
-    public List<Transform> patrolPts; 
+    public List<Transform> patrolPts;
+    private List<Vector2> _points;
     
     [Tooltip("If velocity is above this threshold the platform will not affect the player")] 
     [SerializeField] private float _unlockThreshold = 2.5f;
@@ -24,6 +25,11 @@ public class PlatformMovement : MonoBehaviour
 
     protected void Awake() {
         _startPos = transform.position;
+        _points = new List<Vector2>();
+        foreach (var pt in patrolPts)
+        {
+            _points.Add(pt.position);
+        }
     }
     
 
@@ -74,7 +80,7 @@ public class PlatformMovement : MonoBehaviour
         if (patrolPts.Count == 0 || isRadial) return;
         
         
-        Vector2 target =  (Vector2) patrolPts[_index].position;
+        Vector2 target =  (Vector2) _points[_index];
         Vector2 newPos = Vector2.MoveTowards(Pos, target, _speed * Time.fixedDeltaTime);
         movePlatformPosition(newPos);
 
@@ -119,12 +125,14 @@ public class PlatformMovement : MonoBehaviour
         }
         else
         {
-            Vector2 previous = (Vector2) patrolPts[0].position;
+            if (_points==null || _points.Count ==0) return;
+            
+            Vector2 previous = (Vector2) _points[0];
             Gizmos.DrawWireSphere(previous, 0.2f);
-            if (_looped) Gizmos.DrawLine(previous, (Vector2) patrolPts[^1].position); // ^1 is last index, or _points.Length - 1
+            if (_looped) Gizmos.DrawLine(previous, (Vector2) _points[^1]); // ^1 is last index, or _points.Length - 1
             
             for (var i = 1; i < patrolPts.Count; i++) {
-                Vector2 p = (Vector2) patrolPts[i].position;
+                Vector2 p = (Vector2) _points[i];
                 Gizmos.DrawWireSphere(p, 0.2f);
                 Gizmos.DrawLine(previous, p);
 
