@@ -3,7 +3,10 @@ guid: e9be25240e9944259b54fb405b084805
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - projectile: {instanceID: 0}
+  - shootSound: {fileID: 8300000, guid: dc49d64d76a824e5ebbf1803898c1719, type: 3}
+  - muzzleTip: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

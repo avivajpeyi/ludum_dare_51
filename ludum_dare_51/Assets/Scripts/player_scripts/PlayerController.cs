@@ -177,13 +177,19 @@ namespace Special2dPlayerController {
         private int _wallDir;
         private bool _isOnWall;
 
+        protected int _getWallDir()
+        {
+            Vector3 p = _wallHits[0].ClosestPoint(transform.position);
+            return (int)Mathf.Sign(p .x - transform.position.x);
+        }
+
         protected virtual void HandleWalls() {
             if (!_stats.AllowWalls) return;
 
             _currentWallJumpMoveMultiplier = Mathf.MoveTowards(_currentWallJumpMoveMultiplier, 1f, 1f / _stats.WallJumpInputLossFrames);
 
             // May need to prioritize the nearest wall here... But who is going to make a climbable wall that tight?
-            _wallDir = _wallHitCount > 0 ? (int)Mathf.Sign(_wallHits[0].transform.position.x - transform.position.x) : 0;
+            _wallDir = _wallHitCount > 0 ?  _getWallDir() : 0;
 
             if (!_isOnWall && ShouldStickToWall()) SetOnWall(true);
             else if (_isOnWall && !ShouldStickToWall()) SetOnWall(false);
@@ -576,6 +582,16 @@ namespace Special2dPlayerController {
                 Gizmos.DrawWireSphere(grabPoint + Vector3.Scale(_stats.StandUpOffset, new(facingDir, 1)), 0.05f);
                 Gizmos.DrawRay(grabHeight - _stats.LedgeRaycastSpacing * Vector3.up, 0.5f * facingDir * Vector3.right);
                 Gizmos.DrawRay(grabHeight + _stats.LedgeRaycastSpacing * Vector3.up, 0.5f * facingDir * Vector3.right);
+            }
+            
+            if (_isOnWall) {
+                Gizmos.color = Color.yellow;
+                foreach (var wallHit in _wallHits)
+                {
+                    Gizmos.DrawWireSphere(wallHit.ClosestPoint(transform.position), 0.5f);
+                        
+                }
+                
             }
         }
 #endif
