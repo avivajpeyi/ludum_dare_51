@@ -104,6 +104,7 @@ public class Player : MonoBehaviour
         }
         DisablePlayer();
         if (_gameEventManager!= null) _gameEventManager.RunEndGame();
+        gameObject.SetActive(false);
     }
 
     

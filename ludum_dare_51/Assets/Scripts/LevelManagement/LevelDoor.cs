@@ -11,7 +11,7 @@ public class LevelDoor : MonoBehaviour
     Vector3 openPosition; 
     Vector3 closedPosition;
     public bool stayClosed = false;
-    
+    [SerializeField] private bool isOpen=false;
     
     
     // Start is called before the first frame update
@@ -26,12 +26,19 @@ public class LevelDoor : MonoBehaviour
     public void Open()
     {
         if (!stayClosed)
+        {
             StartCoroutine(LerpDoor(closedPosition, openPosition, 0.3f));
+            isOpen = true;
+        }
+
+        
+        
     }
 
     public void Close()
     {
         StartCoroutine(LerpDoor(openPosition, closedPosition, 0.3f));
+        isOpen = false;
     }
     
     
