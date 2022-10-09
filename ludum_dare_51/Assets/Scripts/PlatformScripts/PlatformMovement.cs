@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Special2dPlayerController;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class PlatformMovement : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PlatformMovement : MonoBehaviour
         foreach (var pt in patrolPts)
         {
             _points.Add(pt.position);
+            pt.GetComponent<SpriteShapeRenderer>().enabled = false;
         }
     }
     

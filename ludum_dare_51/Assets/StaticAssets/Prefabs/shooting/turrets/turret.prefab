@@ -490,7 +490,11 @@ MonoBehaviour:
   muzzleTip: {fileID: 6445116162281582772}
   randomDelay: 0
   fireRate: 0.7
+  isOn: 0
   aimAtPlayer: 0
+  blockingLayers:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!1971053207 &5491561013369849706
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0

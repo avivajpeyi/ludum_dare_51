@@ -33,8 +33,13 @@ public class Turret : MonoBehaviour
 
     private bool playerInSight = false;
 
-    private float playerCheckDistance = 100f;
+    private float playerCheckDistance = 35f;
+    
+    
 
+    public LayerMask blockingLayers;
+    
+    
     
     
     private void Awake()
@@ -73,9 +78,12 @@ public class Turret : MonoBehaviour
         
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, playerCheckDistance);
-        Gizmos.DrawRay(
-            transform.position, 
-            (player.transform.position- transform.position).normalized * playerCheckDistance);
+        if (player != null)
+        {
+            Gizmos.DrawRay(
+                transform.position, 
+                (player.transform.position- transform.position).normalized * playerCheckDistance);
+        }
     }
 
 
@@ -121,13 +129,12 @@ public class Turret : MonoBehaviour
     {
         playerInSight = false;
         
+        
         // raycast to check if player is in sight
-        RaycastHit2D hit = Physics2D.Raycast(
-            (Vector2)transform.position,
-            (Vector2)(player.transform.position - transform.position),
-            playerCheckDistance,
-            ~LayerMask.GetMask("Floor")
-        );
+        Vector2 pos = transform.position;
+        Vector2 dir = (Vector2)player.transform.position - pos; 
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir,  playerCheckDistance,  blockingLayers);
+        Debug.DrawRay(pos, dir*playerCheckDistance, Color.cyan);
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
