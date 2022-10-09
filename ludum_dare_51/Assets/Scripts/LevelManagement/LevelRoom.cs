@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LevelRoom : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class LevelRoom : MonoBehaviour
     private Transform startRefTransform;
     private Transform playerReference;
     private Transform deathZone;
-    private Transform background;
+    private Light2D roomLight;
 
 
     private GameObject timer;
@@ -39,11 +40,10 @@ public class LevelRoom : MonoBehaviour
         startDoor = startRefTransform.GetComponentInChildren<LevelDoor>();
         playerReference = transform.Find("PlayerReference");
         deathZone = transform.Find("DeathZone");
-        background = transform.Find("Background");
+        roomLight = transform.Find("RoomLight").GetComponent<Light2D>();
         
         List<Transform>  requiredTrans = new List<Transform>{
-            endRefTransform, startRefTransform, playerReference,
-            deathZone, background
+            endRefTransform, startRefTransform, playerReference, deathZone, roomLight.transform
         };
         foreach (Transform t in requiredTrans)
         {

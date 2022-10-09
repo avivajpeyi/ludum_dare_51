@@ -10,6 +10,7 @@ public class DrawGizmoAbove : MonoBehaviour
     {
         Gizmos.color = sprite.color;
         Vector3 pos = this.transform.position + Vector3.up*3f;
-        Gizmos.DrawSphere(pos, scale);
+        Gizmos.DrawWireSphere(pos, scale);
+        Gizmos.DrawWireSphere(this.transform.position, scale);
     }
 }

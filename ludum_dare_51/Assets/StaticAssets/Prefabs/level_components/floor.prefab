@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7613402177529997101}
   - component: {fileID: 7613402177529997098}
   - component: {fileID: 7613402177529997099}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,12 +85,12 @@ SpriteShapeRenderer:
   - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
   - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
   - {fileID: 1636838000, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: -2084058111, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: 639631249, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: 2084117412, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: 2003172295, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: 1082412322, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
-  - {fileID: 1150636517, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
+  - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
   - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
   - {fileID: 1202568407, guid: 51bcdc3bead42422aaf81c696a7effe5, type: 3}
   m_LocalAABB:
@@ -321,4 +321,4 @@ MonoBehaviour:
   - {x: 27, y: -12.500002, z: 0}
   m_ShapePathHash: 251348871
   m_Mesh: {fileID: 0}
-  m_InstanceId: -173268
+  m_InstanceId: 60620
