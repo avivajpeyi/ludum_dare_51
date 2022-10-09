@@ -84,6 +84,7 @@ public class LevelRoom : MonoBehaviour
     {
         if (prevRoom!=null)
             AlignToPreviousLevelPart(prevRoom);
+        roomLight.intensity = 0.35f;
     }
 
     private void OnDrawGizmos()
