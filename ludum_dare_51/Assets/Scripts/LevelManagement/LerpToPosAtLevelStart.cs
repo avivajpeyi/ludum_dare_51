@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelDoor : MonoBehaviour
+public class LerpToPosAtLevelStart : MonoBehaviour
 {
 
-    [SerializeField] private GameObject door;
+    [SerializeField] private GameObject go;
     [SerializeField] private Transform openDoorRef;
     [SerializeField] private Transform closedDoorRef;
     Vector3 openPosition; 
@@ -27,7 +27,7 @@ public class LevelDoor : MonoBehaviour
     {
         if (!stayClosed)
         {
-            StartCoroutine(LerpDoor(closedPosition, openPosition, 0.3f));
+            StartCoroutine(LerpPosition(closedPosition, openPosition, 0.3f));
             isOpen = true;
         }
 
@@ -37,22 +37,22 @@ public class LevelDoor : MonoBehaviour
 
     public void Close()
     {
-        StartCoroutine(LerpDoor(openPosition, closedPosition, 0.3f));
+        StartCoroutine(LerpPosition(openPosition, closedPosition, 0.3f));
         isOpen = false;
     }
     
     
-    IEnumerator LerpDoor(Vector3 startValue, Vector3 endValue, float duration)
+    IEnumerator LerpPosition(Vector3 startValue, Vector3 endValue, float duration)
     {
         float timeElapsed = 0;
         while (timeElapsed < duration)
         {
             float t = timeElapsed / duration;
-            door.transform.position = Vector3.Lerp(startValue, endValue, t);
+            go.transform.position = Vector3.Lerp(startValue, endValue, t);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        door.transform.position = endValue;
+        go.transform.position = endValue;
     }
     
     

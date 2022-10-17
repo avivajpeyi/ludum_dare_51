@@ -31,7 +31,7 @@ MonoBehaviour:
   AllowWalls: 1
   ClimbableLayer:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 8
   RequireInputPush: 0
   WallClimbSpeed: 5
   WallFallAcceleration: 8

@@ -15003,6 +15003,7 @@ MonoBehaviour:
   _doubleJumpParticles: {fileID: 3836054526829672068}
   _landParticles: {fileID: 3836054527146565397}
   _jumpParticlesParent: {fileID: 3266588521816464805}
+  _jumpTrialRenderer: {fileID: 3836054526886193612}
   _attackAnimTime: 0.2
   _attackClip: {fileID: 8300000, guid: b8093fb3a7eb8f74a878bb9da5af0a7a, type: 3}
 --- !u!212 &3836054527376998748

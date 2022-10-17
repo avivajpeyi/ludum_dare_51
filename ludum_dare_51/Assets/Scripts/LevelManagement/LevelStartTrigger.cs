@@ -9,13 +9,13 @@ public class LevelStartTrigger : MonoBehaviour
     private static int countRooms = 0;
     private GameEventManager _gameEventManager;
     private LevelUI _ui;
-    private LevelDoor _door;
+    private LerpToPosAtLevelStart _start;
     public bool levelStarted = false;
     BoxCollider2D myBoxCollider;
     
     private void Awake()
     {
-        _door = GetComponent<LevelDoor>();
+        _start = GetComponent<LerpToPosAtLevelStart>();
         _gameEventManager = FindObjectOfType<GameEventManager>();
         if (name =="EndPosition") Destroy(this); // we only want this for StartPosition
         _ui = FindObjectOfType<LevelUI>();
@@ -27,7 +27,7 @@ public class LevelStartTrigger : MonoBehaviour
         // if player enters the trigger, start the level
         if (col.CompareTag("Player"))
         {
-            _door.stayClosed = true;
+            _start.stayClosed = true;
             levelStarted = true;
             countRooms++;
             _ui.updateRoomNumber(countRooms);
