@@ -16,8 +16,8 @@ public class LevelRoom : MonoBehaviour
 
 
     private GameObject timer;
-    [SerializeField] private LevelDoor startDoor;
-    [SerializeField] private LevelDoor endDoor;
+    [SerializeField] private LerpToPosAtLevelStart startStart;
+    [SerializeField] private LerpToPosAtLevelStart endStart;
     private GameEventManager _gameEventManager;
     
     
@@ -35,9 +35,9 @@ public class LevelRoom : MonoBehaviour
     {
         _gameEventManager = FindObjectOfType<GameEventManager>();
         endRefTransform = transform.Find("EndPosition");
-        endDoor = endRefTransform.GetComponentInChildren<LevelDoor>();
+        endStart = endRefTransform.GetComponentInChildren<LerpToPosAtLevelStart>();
         startRefTransform = transform.Find("StartPosition");
-        startDoor = startRefTransform.GetComponentInChildren<LevelDoor>();
+        startStart = startRefTransform.GetComponentInChildren<LerpToPosAtLevelStart>();
         playerReference = transform.Find("PlayerReference");
         deathZone = transform.Find("DeathZone");
         roomLight = transform.Find("RoomLight").GetComponent<Light2D>();
@@ -69,14 +69,14 @@ public class LevelRoom : MonoBehaviour
 
     public void CloseLevelDoors()
     {
-        startDoor.Close();
-        endDoor.Close();
+        startStart.Close();
+        endStart.Close();
     }
     
     public void OpenExitDoor()
     {
-        endDoor.Open();
-        startDoor.Open();
+        endStart.Open();
+        startStart.Open();
         Debug.Log("Open " + name + " ExitDoor" );
     }
 
