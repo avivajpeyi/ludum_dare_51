@@ -5,6 +5,10 @@
 [Bb]uilds/
 [Ll]ogs/
 
+*.dwlt
+ludum_dare_51/UserSettings/Layouts/default-2021.dwlt
+
+
 # ML AGENTS STUFF
 results
 *.onnx

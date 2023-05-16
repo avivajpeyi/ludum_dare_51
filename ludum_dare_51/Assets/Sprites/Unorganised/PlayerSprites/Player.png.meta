@@ -883,65 +883,65 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_17: 260861768
-      Ledge_Climb_1: 1089012412
-      Idle_4: 162358456
-      Jump_1: -1615857964
-      Player_18: -1774872834
-      Damage_1: -719816895
-      Ledge_Climb_4: 1240596388
-      Wall_Hit_0: -2084838775
-      Wall_Climb_1: 289853362
-      Player_12: 623086139
-      Wall_Climb_3: -438588604
-      Ledge_Grab_0: 558853632
-      Player_29: 1215322878
-      Player_9: -1571163862
-      Player_14: -477775944
-      Player_7: 1440782726
-      Wall_Hit_1: -972391399
-      Crouch_0: -222182166
-      Land_0: 1257217087
-      Ledge_Climb_2: -2030168192
-      Player_16: -1358396271
-      Player_8: 1974342845
-      Jump_0: 1264207555
-      Walk_2: -1194496797
+      Attack_0: -1363261616
+      Attack_1: 1089099123
       Attack_2: 1796304774
-      Player_27: -1681689509
-      Player_10: -676006027
-      Walk_3: -131635771
-      Walk_1: -887557882
-      Player_13: -1545918347
-      Player_21: -1691191666
-      Player_15: 1172798137
-      Player_24: -2055507782
+      Climb_0: -1513568169
+      Climb_1: 2074926481
+      Crouch_0: -222182166
+      Damage_0: 1514308997
+      Damage_1: -719816895
+      Fall_0: -822748727
+      Fall_1: -1047236286
+      Idle_0: 1766862958
+      Idle_1: 278059133
+      Idle_2: -1647190173
+      Idle_4: 162358456
+      Jump_0: 1264207555
+      Jump_1: -1615857964
+      Land_0: 1257217087
       Ledge_Climb_0: 1311217488
+      Ledge_Climb_1: 1089012412
+      Ledge_Climb_2: -2030168192
+      Ledge_Climb_3: -1036645877
+      Ledge_Climb_4: 1240596388
+      Ledge_Climb_5: -783546616
+      Ledge_Grab_0: 558853632
+      Player_10: -676006027
       Player_11: 668789113
+      Player_12: 623086139
+      Player_13: -1545918347
+      Player_14: -477775944
+      Player_15: 1172798137
+      Player_16: -1358396271
+      Player_17: 260861768
+      Player_18: -1774872834
       Player_19: -1270379279
       Player_20: -886310868
-      Fall_1: -1047236286
-      Wall_Climb_2: -1827944469
-      Player_23: 975016854
-      Climb_1: 2074926481
-      Idle_1: 278059133
+      Player_21: -1691191666
       Player_22: -589395472
+      Player_23: 975016854
+      Player_24: -2055507782
       Player_25: 1656066898
-      Wall_Idle_0: -220364392
-      Attack_0: -1363261616
-      Climb_0: -1513568169
-      Walk_0: -1934807408
-      Idle_0: 1766862958
-      Wall_Slide_0: 185186377
-      Fall_0: -822748727
-      Ledge_Climb_5: -783546616
-      Damage_0: 1514308997
       Player_26: -919403318
-      Attack_1: 1089099123
-      Ledge_Climb_3: -1036645877
-      Idle_2: -1647190173
+      Player_27: -1681689509
       Player_28: 1379366927
+      Player_29: 1215322878
+      Player_7: 1440782726
+      Player_8: 1974342845
+      Player_9: -1571163862
+      Walk_0: -1934807408
+      Walk_1: -887557882
+      Walk_2: -1194496797
+      Walk_3: -131635771
       Wall_Climb_0: -2036956217
+      Wall_Climb_1: 289853362
+      Wall_Climb_2: -1827944469
+      Wall_Climb_3: -438588604
+      Wall_Hit_0: -2084838775
+      Wall_Hit_1: -972391399
+      Wall_Idle_0: -220364392
+      Wall_Slide_0: 185186377
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
