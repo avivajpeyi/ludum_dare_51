@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 
 public class StartGameTrigger : MonoBehaviour
 {
     [SerializeField] private Animator crossfadeAnim;
     [SerializeField] private Animator spriteFocusAnim;
+
+    private bool animatorsAssigned = false;
+
+    private void Start()
+    {
+        if (crossfadeAnim!=null && spriteFocusAnim!=null)
+        {
+            animatorsAssigned = true;
+        }
+    }
 
     void StartGameTransition()
     {
@@ -15,7 +26,7 @@ public class StartGameTrigger : MonoBehaviour
     {
         if (c.gameObject.CompareTag("Player"))
         {
-            StartGameTransition();
+            if (animatorsAssigned) StartGameTransition();
             Invoke("LoadGame", 1);
         }
     }

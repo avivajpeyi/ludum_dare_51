@@ -6,26 +6,29 @@ using UnityEngine.Serialization;
 
 public class RoomFactory : Singleton<RoomFactory>
 {
-    public int startingNumRooms = 5;
-
+    public int startingNumRooms = 2;
+    [SerializeField] private int winRoomNumber = 50;
     [SerializeField] private RoomManager startingRoomManager;
     [SerializeField] private RoomSet roomSet;
 
+
     private LinkedList<RoomManager> _rooms;
 
-    private int maxNumRooms = 10;
+    private readonly int maxNumRooms = 3;
 
-    public static int SpawnCount
-    {
-        get;
-        private set;
-    }
+    public static int SpawnCount { get; private set; }
+
+    int CurrentNumberOfRooms => _rooms.Count;
+
+    bool IsWinningRoom => SpawnCount == winRoomNumber;
+    private bool winningRoomSpawned = false;
 
 
     RoomManager NewestRoom
     {
         get { return _rooms.First.Value; }
     }
+
 
     private void Start()
     {
@@ -51,16 +54,18 @@ public class RoomFactory : Singleton<RoomFactory>
 
     void OnStateChange(GameState oldState, GameState newState)
     {
-        if (newState == GameState.InRoom  && oldState == GameState.BetweenRooms)
+        if (newState == GameState.InRoom && oldState == GameState.BetweenRooms)
         {
             SpawnRoom();
             CleanUpRooms();
         }
+        else if (newState == GameState.StartingGame)
+            SpawnCount = 0;
     }
 
     private void CleanUpRooms()
     {
-        if (_rooms.Count > maxNumRooms)
+        if (CurrentNumberOfRooms > maxNumRooms)
         {
             RoomManager lastRoom = _rooms.Last.Value;
             Destroy(lastRoom.gameObject);
@@ -70,15 +75,20 @@ public class RoomFactory : Singleton<RoomFactory>
 
     private void SpawnRoom()
     {
+        if (winningRoomSpawned) return; // no more rooms to spawn
+
         SpawnCount++;
-        GameObject roomPrefab = roomSet.GetRandomRoom();
         RoomManager oldRoom = NewestRoom;
-        RoomManager newRoom =
-            Instantiate(roomPrefab, oldRoom.GetEndPoint(), Quaternion.identity)
-                .GetComponent<RoomManager>();
-        newRoom.AlignToPreviousRoom(oldRoom);
+        RoomManager newRoom = roomSet.SpawnRoom(oldRoom, IsWinningRoom);
         _rooms.AddFirst(newRoom);
         newRoom.transform.parent = this.transform;
         newRoom.transform.name = $"Room{SpawnCount}";
+        if (IsWinningRoom)
+        {
+            newRoom.transform.name = $"RoomEnd";
+            winningRoomSpawned = true;
+        }
+
+     
     }
 }

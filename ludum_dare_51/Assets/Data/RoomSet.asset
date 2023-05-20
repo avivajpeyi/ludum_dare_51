@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 7187950877022009735, guid: 3fcee2ffaab174051bee12ecae79c44d, type: 3}
   - {fileID: 1976750113974072229, guid: ad05456d401194df481eec3c3b0755d7, type: 3}
   - {fileID: 8721147745445977500, guid: d7e62b7763bcc42feaee4f4ee4e8646b, type: 3}
+  endRoom: {fileID: 8721147745445977500, guid: 3230002b0e84d4f9bab1ac2c7483a3f3, type: 3}
