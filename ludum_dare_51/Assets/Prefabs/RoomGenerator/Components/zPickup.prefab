@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 1358405572596452443}
   - component: {fileID: 5437437110690436694}
   m_Layer: 0
-  m_Name: z
+  m_Name: zPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

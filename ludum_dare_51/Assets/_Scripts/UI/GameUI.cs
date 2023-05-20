@@ -66,7 +66,7 @@ public class GameUI : MonoBehaviour
 
     public void ShowEndGameUi()
     {
-        LargeMessageTxt.text = "Steve Woke Up!\n Snooze?";
+        LargeMessageTxt.text = "Sam Woke Up!\n Snooze?";
         hourglassAnimator.SetBool(HourglassAnimTrigger, false);
     }
 

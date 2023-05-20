@@ -9,13 +9,29 @@ public class RoomStartTrigger : MonoBehaviour
     private GameEventManager _gameEventManager;
     private RoomDoorController _start;
 
+    private void OnEnable()
+    {
+        GameEventManager.OnAfterStateChanged += OnStateChanged;
+    }
+    
+    private void OnDisable()
+    {
+        GameEventManager.OnAfterStateChanged -= OnStateChanged;
+    }
+
+    void OnStateChanged(GameState state)
+    {
+        if (state == GameState.StartingGame)
+            CountRooms = 0;
+    }
+
     public static int CountRooms
     {
         get;
         private set;
     }
 
-    private string RoomName => transform.parent.parent.name;
+    private string RoomName => transform.parent.name;
 
     private void Awake()
     {
