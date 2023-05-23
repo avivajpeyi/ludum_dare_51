@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 6826105686512899535}
   - component: {fileID: 5736628543273383448}
   - component: {fileID: 5547294223380296605}
-  m_Layer: 0
-  m_Name: platform
+  m_Layer: 11
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0
@@ -191,7 +191,10 @@ MonoBehaviour:
   - {x: 17.836903, y: -0.28326416, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 103918
+  m_InstanceId: 45718
+  m_LocalBounds:
+    m_Center: {x: 8.393197, y: 0.09173584, z: 0}
+    m_Extent: {x: 9.4437065, y: 0.375, z: 0}
 --- !u!61 &5547294223380296605
 BoxCollider2D:
   m_ObjectHideFlags: 0

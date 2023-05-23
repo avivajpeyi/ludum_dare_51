@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneManager : Singleton<SceneManager>
 {
-    GameEventManager _gm;
+    GameManager _gm;
 
     private const string MainMenuSceneName = "StartScene";
     private const string GameSceneName = "MainGameScene";
@@ -20,7 +20,7 @@ public class SceneManager : Singleton<SceneManager>
 
     private void Start()
     {
-        _gm = GameEventManager.Instance;
+        _gm = GameManager.Instance;
         Debug.Log($"SceneManager: Start: SceneName: {SceneName}");
         if (SceneName == MainMenuSceneName)
         {

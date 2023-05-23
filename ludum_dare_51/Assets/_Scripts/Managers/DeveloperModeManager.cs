@@ -32,7 +32,7 @@ public class DeveloperModeManager : MonoBehaviour
     private bool showConsole;
     public List<object> commandList;
     string input = "";
-    private GameEventManager _gameEventManager;
+    private GameManager _gm;
     private TimerManager _timerManager;
 
 
@@ -72,7 +72,7 @@ public class DeveloperModeManager : MonoBehaviour
 
     private void Start()
     {
-        _gameEventManager = GameEventManager.Instance;
+        _gm = GameManager.Instance;
         _timerManager = TimerManager.Instance;
         InitCommands();
 
@@ -86,7 +86,7 @@ public class DeveloperModeManager : MonoBehaviour
     void InitCommands()
     {
         GOD_MODE = new DebugCommand("god", "Toggle god mode", "god",
-            () => { _gameEventManager.TriggerToggleGodMode(); });
+            () => { _gm.TriggerToggleGodMode(); });
         SKIP_ROOM = new DebugCommand("skip", "Skip room", "skip",
             () => { _timerManager.SkipTimer(); });
         commandList.Add(GOD_MODE);
@@ -118,17 +118,30 @@ public class DeveloperModeManager : MonoBehaviour
             return _fps;
         }
     }
+    
+    String RoomName
+    {
+        get
+        {
+            try {if (_gm.State == GameState.InRoom) return _gm.ActiveRoom.name; }
+            catch (Exception e) {return "No Room"; }
+            return "No Room";
+        }
+    }
 
     void AddDeveloperInfo()
     {
-        String state = GameEventManager.Instance.State.ToString();
-        String s = $"FPS: {FPS:000} | State: {state}";
+        String state = GameManager.Instance.State.ToString();
+        String s = $"FPS: {FPS:000} | State: {state} | Room: {RoomName}";
+        // Set box transparent with no border
+        GUI.backgroundColor = new Color(0, 0, 0, 0);
         GUI.Box(new Rect(0, Screen.height - 20, Screen.width, 20), s);
     }
 
 
     private void OnGUI()
     {
+        if (!Application.isPlaying) return;
         #if UNITY_EDITOR
         AddDeveloperInfo();
         #endif

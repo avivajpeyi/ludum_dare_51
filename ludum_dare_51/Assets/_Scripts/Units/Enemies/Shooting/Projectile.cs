@@ -83,10 +83,9 @@ public class Projectile : MonoBehaviour
         if (HitParticleFx != null)
             Instantiate(HitParticleFx, transform.position, Quaternion.identity);
 
-        PlayerManager p = collider.GetComponent<PlayerManager>();
-        if (p != null)
+        if (collider.CompareTag("Player"))
         {
-            p.Die();
+            GameManager.Instance.TriggerTakeDamage();
         }
 
         Disable();

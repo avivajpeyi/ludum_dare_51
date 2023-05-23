@@ -9,6 +9,30 @@ public class RoomSet : ScriptableObject
 {
     [SerializeField] private List<GameObject> rooms;
     [SerializeField] private GameObject endRoom;
+    private List<int> nonUsedIdxs = new List<int>();
+
+
+    private void Awake()
+    {
+        ResetNonUsedIdx();
+    }
+
+    void ResetNonUsedIdx()
+    {
+        for (int i = 0; i < rooms.Count; i++)
+            nonUsedIdxs.Add(i);
+    }
+
+    int GetRandomNonUsedIdx()
+    {
+        if (nonUsedIdxs.Count == 0)
+            ResetNonUsedIdx();
+
+        int idx = nonUsedIdxs[UnityEngine.Random.Range(0, nonUsedIdxs.Count)];
+        nonUsedIdxs.Remove(idx);
+        return idx;
+    }
+
 
     private GameObject GetEndRoomPrefab()
     {
@@ -17,27 +41,25 @@ public class RoomSet : ScriptableObject
             Debug.LogError("End room prefab not set");
             return rooms[0];
         }
+
         return endRoom;
     }
 
 
-    private GameObject GetNextRoomPrefab(bool finalRoom=false)
+    private GameObject GetNextRoomPrefab(bool finalRoom = false)
     {
-        if (finalRoom)
-        {
-            return GetEndRoomPrefab();
-        }
-        return rooms[UnityEngine.Random.Range(0, rooms.Count)];
+        if (finalRoom) return GetEndRoomPrefab();
+        return rooms[GetRandomNonUsedIdx()];
     }
 
-    public RoomManager SpawnRoom(RoomManager oldRoom, bool finalRoom=false)
+    public RoomManager SpawnRoom(RoomManager oldRoom, bool finalRoom = false)
     {
         GameObject roomPrefab = GetNextRoomPrefab(finalRoom);
         RoomManager r = Instantiate(
-                roomPrefab,
-                oldRoom.GetEndPoint(),
-                Quaternion.identity
-            ).GetComponent<RoomManager>();
+            roomPrefab,
+            oldRoom.EndPoint,
+            Quaternion.identity
+        ).GetComponent<RoomManager>();
         r.AlignToPreviousRoom(oldRoom);
         return r;
     }

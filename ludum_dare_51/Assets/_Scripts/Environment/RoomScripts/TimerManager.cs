@@ -4,26 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore;
 
-[RequireComponent(typeof(GameUI))]
+
 public class TimerManager : Singleton<TimerManager>
 {
     [SerializeField] private int levelTime = 10;
 
     private int _timeLeft;
-    private GameUI _gameUI;
-    private GameEventManager _gameEventManager;
-    private bool isOn = false;
+    private TimerUI _ui;
+    private GameManager _gm;
+    private bool _isOn;
     Coroutine _timerCoroutine;
 
 
     private void OnEnable()
     {
-        GameEventManager.OnAfterStateChanged += OnStateChanged;
+        GameManager.OnAfterStateChanged += OnStateChanged;
     }
 
     private void OnDisable()
     {
-        GameEventManager.OnAfterStateChanged -= OnStateChanged;
+        GameManager.OnAfterStateChanged -= OnStateChanged;
     }
 
     void OnStateChanged(GameState state)
@@ -38,37 +38,42 @@ public class TimerManager : Singleton<TimerManager>
         }
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _ui = FindObjectOfType<TimerUI>();
+    }
+
     private void Start()
     {
-        _gameEventManager = GameEventManager.Instance;
-        _gameUI = GetComponent<GameUI>();
+        _gm = GameManager.Instance;
     }
 
     public void StartTimer()
     {
         _timeLeft = levelTime;
-        isOn = true;
+        _isOn = true;
         _timerCoroutine = StartCoroutine(DecreaseTime());
     }
 
     public IEnumerator DecreaseTime()
     {
-        while (_timeLeft > 0 && !_gameEventManager.isGameOver)
+        while (_timeLeft > 0 && !_gm.isGameOver)
         {
             _timeLeft--;
-            _gameUI.UpdateTime(_timeLeft);
-            yield return new WaitForSeconds(1);
+            _ui.UpdateTime(_timeLeft);
+            yield return Helpers.GetWait(1);
         }
 
         TimerReachedEnd();
-        _gameEventManager.ChangeState(GameState.BetweenRooms);
+        RoomFactory.Instance.TriggerFinishRoom();
     }
 
     void TimerReachedEnd()
     {
-        isOn = false;
+        _isOn = false;
         _timeLeft = 0;
-        _gameUI.UpdateTime(0);
+        _ui.UpdateTime(0);
     }
 
     void StopTimer()
@@ -80,11 +85,11 @@ public class TimerManager : Singleton<TimerManager>
 
     public void SkipTimer()
     {
-        if (isOn)
+        if (_isOn)
         {
             Debug.Log("Room skipped");
             StopTimer();
-            _gameEventManager.ChangeState(GameState.BetweenRooms);
+            RoomFactory.Instance.TriggerFinishRoom();
         }
     }
 }
