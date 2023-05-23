@@ -170,7 +170,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &6091719718681196110
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -187,7 +187,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &6091719718681196104
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19931,6 +19932,7 @@ GameObject:
   - component: {fileID: 6091719720377829573}
   - component: {fileID: 6091719720377829568}
   - component: {fileID: 7040891533300788713}
+  - component: {fileID: 1865397690}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -20045,8 +20047,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d63937bfbf94fb2acb10f951eb4ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathFx: {fileID: 3164565573567085564, guid: d950fd76264b74216868aa76237744c8, type: 3}
-  debugMode: 0
+--- !u!114 &1865397690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6091719720377829579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ec13d08c93c42f986023209da41c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stats: {fileID: 11400000, guid: 8f3e4ac96e9fac84e96172956137e1c4, type: 2}
 --- !u!1 &6091719720458933621
 GameObject:
   m_ObjectHideFlags: 0

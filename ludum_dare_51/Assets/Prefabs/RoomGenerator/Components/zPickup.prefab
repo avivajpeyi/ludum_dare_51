@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4813273267896697665}
   - component: {fileID: 7275202555989895308}
   - component: {fileID: 609424529259118801}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &609424529259118801
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -107,7 +107,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1720132208843992381
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ GameObject:
   - component: {fileID: 1720132208843992322}
   - component: {fileID: 1358405572596452443}
   - component: {fileID: 5437437110690436694}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: zPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,6 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupFx: {fileID: 3164565573567085564, guid: 61c370a035dcf4c3cb1d9929693c4685, type: 3}
+  isCollected: 0
 --- !u!61 &5437437110690436694
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1720132209431296242}
   - component: {fileID: 1720132209431296243}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +305,7 @@ GameObject:
   - component: {fileID: 1981092819350727470}
   - component: {fileID: 6326474401582582499}
   - component: {fileID: 5752404617970101004}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: radialLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -649,7 +651,7 @@ MonoBehaviour:
   - {x: -0.5, y: 0.5, z: 0}
 --- !u!95 &5752404617970101004
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -666,7 +668,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4188043937334308786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -737,6 +740,10 @@ PrefabInstance:
     - target: {fileID: 8588367018633964488, guid: fad01d3268c574d488a50d7e7c58137f, type: 3}
       propertyPath: m_Name
       value: zzzs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8588367018633964488, guid: fad01d3268c574d488a50d7e7c58137f, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fad01d3268c574d488a50d7e7c58137f, type: 3}

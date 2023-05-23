@@ -1,33 +1,59 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using Cinemachine;
+using UnityEngine.Serialization;
 
 public class CameraManager : MonoBehaviour
 {
-    [SerializeField] public float dampTime = 0.15f;
-    [SerializeField] bool targetSet = false;
 
-    private GameEventManager gm;
+    [SerializeField] private CinemachineVirtualCamera mainVirtualCamera;
+    
+    private GameManager gm;
     private Transform _target;
     private Camera _camera;
+    private CinemachineBrain _cineBrain;
+    
     private Vector3 _velocity = Vector3.zero;
     Vector3 _targetPos;
     Vector3 _camPos;
 
+    
+    private CinemachineVirtualCamera ActiveVirtualCamera
+    {
+        get
+        {
+            return _cineBrain.ActiveVirtualCamera as CinemachineVirtualCamera;
+        }
+    }
+    
+    
+    
     private void Awake()
     {
-        _camera = Camera.main;
-        targetSet = false;
+        _cineBrain = GetComponent<CinemachineBrain>();
     }
 
+    private void Start()
+    {
+        gm = GameManager.Instance;
+        mainVirtualCamera.Follow = PlayerManager.Instance.transform;
+        mainVirtualCamera.Priority = 100;
+    }
+    
+    void PrioitizeMainVirtualCamera()=> mainVirtualCamera.Priority = 100;
+    void DeprioritizeMainVirtualCamera()=> ActiveVirtualCamera.Priority = 0;
+    
     private void OnEnable()
     {
-        GameEventManager.OnAfterStateChanged += OnStateChange;
+        GameManager.OnAfterStateChanged += OnStateChange;
+        GameManager.OnPlayerTakeDamage += CameraShake;
     }
 
     private void OnDisable()
     {
-        GameEventManager.OnAfterStateChanged -= OnStateChange;
+        GameManager.OnAfterStateChanged -= OnStateChange;
+        GameManager.OnPlayerTakeDamage -= CameraShake;
     }
 
     private void OnStateChange(GameState state)
@@ -35,48 +61,21 @@ public class CameraManager : MonoBehaviour
         switch (state)
         {
             case GameState.StartingGame:
-                SetTargetToPlayer();
+                PrioitizeMainVirtualCamera();
                 break;
-            case GameState.Lose:
-                UnsetTarget();
+            case GameState.BetweenRooms:
+                PrioitizeMainVirtualCamera();
+                break;
+            case GameState.InRoom:
+                DeprioritizeMainVirtualCamera();
                 break;
         }
     }
 
-    private void UnsetTarget()
+
+    public void CameraShake()
     {
-        _target = null;
-        targetSet = false;
+        ActiveVirtualCamera.GetComponent<CinemachineImpulseSource>().GenerateImpulse();
     }
 
-    private void SetTargetToPlayer()
-    {
-        _target = PlayerManager.Instance.transform;
-        Debug.Log("Camera target set: " + _target.name);
-        targetSet = true;
-    }
-
-    void Update()
-    {
-        if (targetSet)
-        {
-            SlerpToTarget();
-        }
-    }
-
-
-    void SlerpToTarget()
-    {
-        _targetPos = _target.position;
-        _camPos = transform.position;
-
-        float targetScreenZ = _camera.WorldToViewportPoint(_targetPos).z;
-        Vector3 delta = _targetPos -
-                        _camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f,
-                            targetScreenZ));
-        Vector3 destination = _camPos + delta;
-        transform.position = Vector3.SmoothDamp(
-            _camPos, destination,
-            ref _velocity, dampTime);
-    }
 }

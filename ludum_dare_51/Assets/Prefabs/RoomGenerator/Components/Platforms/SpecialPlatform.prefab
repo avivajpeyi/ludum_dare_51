@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7484803020747596294}
   - component: {fileID: 1681129585}
   - component: {fileID: 1681129584}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pt1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 4933983651372231042}
   - component: {fileID: 2807595573508760243}
   - component: {fileID: 8338489885476577235}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pt2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 883775651770086894}
   - component: {fileID: 1948277406}
   - component: {fileID: 1948277407}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpecialPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,6 +511,9 @@ MonoBehaviour:
   m_ShapePathHash: 1489013885
   m_Mesh: {fileID: 0}
   m_InstanceId: -2576
+  m_LocalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!251 &883775651770086894
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -522,7 +525,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 0

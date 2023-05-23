@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using Special2dPlayerController;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,17 +10,15 @@ using UnityEngine.Serialization;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    // TODO: move to PlayerStats
-    [SerializeField] private GameObject deathFx;
 
-    private bool _godMode = false; // for debugging
+    private bool _godMode; // for debugging
     private Rigidbody2D _rigidbody2d;
-    private CapsuleCollider2D _collider2d;
     private bool _isDead;
     private PlayerInput _myInputHandler;
     private PlayerController _myMovementController;
     private PlayerAnimator _myAnimator;
-
+    private SpriteRenderer _mySpriteRenderer;
+    
 
     protected override void Awake()
     {
@@ -29,14 +29,14 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private void OnEnable()
     {
-        GameEventManager.OnAfterStateChanged += OnGameStateChange;
-        GameEventManager.OnToggleGodMode += ToggleGodMode;
+        GameManager.OnAfterStateChanged += OnGameStateChange;
+        GameManager.OnToggleGodMode += ToggleGodMode;
     }
 
     private void OnDisable()
     {
-        GameEventManager.OnAfterStateChanged -= OnGameStateChange;
-        GameEventManager.OnToggleGodMode -= ToggleGodMode;
+        GameManager.OnAfterStateChanged -= OnGameStateChange;
+        GameManager.OnToggleGodMode -= ToggleGodMode;
     }
 
 
@@ -50,32 +50,27 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (Array.Exists(statesToEnablePlayer, element => element == state))
             EnablePlayer();
+        else if (state == GameState.Lose)
+            Die();
         else
             DisablePlayer();
-
     }
 
     void SetInitialReferences()
     {
         _isDead = false;
+        _godMode = false;
         _rigidbody2d = GetComponent<Rigidbody2D>();
-        _collider2d = GetComponent<CapsuleCollider2D>();
         _myAnimator = GetComponentInChildren<PlayerAnimator>();
         _myInputHandler = GetComponent<PlayerInput>();
         _myMovementController = GetComponent<PlayerController>();
+        _mySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     public void ToggleGodMode()
     {
-        Instantiate(deathFx, transform.position, Quaternion.identity);
-        if (_godMode)
-        {
-            _TurnOffGodMode();
-        }
-        else
-        {
-            _TurnOnGodMode();
-        }
+        if (_godMode) _TurnOffGodMode();
+        else _TurnOnGodMode();
     }
 
     void _TurnOnGodMode()
@@ -110,43 +105,29 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private void Update()
     {
-        if (_isDead) return;
-
-
-        if (_godMode)
-        {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-            _rigidbody2d.velocity = new Vector2(horizontalInput * 40,
-                verticalInput * 40);
-        }
+        if (_godMode) GodModeMovement();
     }
 
 
-    public Vector3 GetPosition()
+    private void GodModeMovement()
     {
-        return transform.position;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        _rigidbody2d.velocity = new Vector2(
+            horizontalInput * 40,
+            verticalInput * 40
+        );
     }
 
-    public void Die()
+    private void Die()
     {
-        // TODO: move to the handing of this to PlayerHealth
-        
-        if (_godMode) return;
-
         Debug.Log("Player died");
         _isDead = true;
         _rigidbody2d.velocity = Vector3.zero;
-        Instantiate(deathFx, transform.position, Quaternion.identity);
-        // loop over all child sprite renderers and disable them
-        foreach (SpriteRenderer spriteRenderer in
-                 GetComponentsInChildren<SpriteRenderer>())
-        {
-            spriteRenderer.enabled = false;
-        }
+        _mySpriteRenderer.enabled = false;
+        
 
         DisablePlayer();
-        GameEventManager.Instance.ChangeState(GameState.Lose);
         gameObject.SetActive(false);
     }
 }

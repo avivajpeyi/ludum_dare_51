@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Starts/ends game 
-public class GameEventManager : Singleton<GameEventManager>
+public class GameManager : Singleton<GameManager>
 {
+    public RoomManager ActiveRoom { get; private set; }
 
-    
     public bool isGameOver = false;
 
     private void Update()
@@ -19,29 +19,32 @@ public class GameEventManager : Singleton<GameEventManager>
     }
 
 
-
     void RestartGame()
     {
         isGameOver = false;
         SceneManager.GoToGameScene();
     }
 
-    
+
+    #region Extra Events
+
     public delegate void PlayerTakeDamage();
 
     public static event PlayerTakeDamage OnPlayerTakeDamage;
     public void TriggerTakeDamage() => OnPlayerTakeDamage?.Invoke();
+
+    
 
     public delegate void ToggleGodMode();
 
     public static event ToggleGodMode OnToggleGodMode;
     public void TriggerToggleGodMode() => OnToggleGodMode?.Invoke();
 
+    #endregion
+
+
     #region StateHandling
 
-    
-
-    
     public static event Action<GameState, GameState> OnBeforeStateChanged;
 
     public static event Action<GameState> OnAfterStateChanged;
@@ -67,7 +70,7 @@ public class GameEventManager : Singleton<GameEventManager>
             }
         }
     }
-    
+
 
     public void ChangeState(GameState newState)
     {
@@ -123,6 +126,7 @@ public class GameEventManager : Singleton<GameEventManager>
     private void HandleBetweenRooms()
     {
         Debug.Assert(State == GameState.BetweenRooms);
+        ActiveRoom = null;
     }
 
     private void HandleInRoom()
@@ -147,11 +151,8 @@ public class GameEventManager : Singleton<GameEventManager>
         Debug.Assert(State == GameState.Paused);
         isGameOver = true;
     }
-    
-    
-    
+
     #endregion
-    
 }
 
 

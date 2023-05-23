@@ -161,6 +161,17 @@ namespace Special2dPlayerController {
         [Tooltip("The maximum health of the player")]
         public int MaxHealth = 3;
         
+        [Tooltip("Time in seconds before the player can take damage again")]
+        public float DamageCooldown = 1f;
+        
+        [Tooltip("Effect to spawn when the player dies")]
+        public GameObject HurtEffect;
+        
+        [Tooltip("Effect to spawn when the player dies")]
+        public GameObject DeathEffect;
+
+        
+        
 #if UNITY_EDITOR
         [Header("GIZMOS")] 
         [Tooltip("Color: White")]

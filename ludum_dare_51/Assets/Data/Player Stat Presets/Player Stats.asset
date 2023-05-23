@@ -54,11 +54,11 @@ MonoBehaviour:
   StandUpOffset: {x: 0.19, y: 0}
   LedgeRaycastSpacing: 0.2
   LedgeClimbDuration: 0.5
-  AllowDash: 1
+  AllowDash: 0
   DashVelocity: 50
   DashDurationFrames: 5
   DashEndHorizontalMultiplier: 0.25
-  AllowAttacks: 1
+  AllowAttacks: 0
   AttackFrameCooldown: 15
   PlayerLayer:
     serializedVersion: 2
@@ -66,5 +66,9 @@ MonoBehaviour:
   GrounderDistance: 0.1
   WallDetectorSize: {x: 0.75, y: 1}
   ExternalVelocityDecay: 100
+  MaxHealth: 3
+  DamageCooldown: 1
+  HurtEffect: {fileID: 3164565573567085564, guid: d950fd76264b74216868aa76237744c8, type: 3}
+  DeathEffect: {fileID: 3164565573567085564, guid: d950fd76264b74216868aa76237744c8, type: 3}
   ShowWallDetection: 1
   ShowLedgeDetection: 1

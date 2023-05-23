@@ -15,9 +15,8 @@ GameObject:
   - component: {fileID: 1734656394106308481}
   - component: {fileID: 3584210527219829712}
   - component: {fileID: 6007763085269583710}
-  - component: {fileID: 1283683695}
   m_Layer: 6
-  m_Name: Main Camera
+  m_Name: CameraBrain
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +64,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 16.96875
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -109,8 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da63e319549d4a5a84cdf93d796cf94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dampTime: 0.15
-  target: {fileID: 0}
+  mainVirtualCamera: {fileID: 0}
 --- !u!114 &3584210527219829712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,26 +176,3 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1283683695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1734656394106308542}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ComponentVersion: 1
-  m_AssetsPPU: 16
-  m_RefResolutionX: 640
-  m_RefResolutionY: 360
-  m_CropFrame: 0
-  m_GridSnapping: 0
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
