@@ -28,6 +28,7 @@ public class RoomFactory : Singleton<RoomFactory>
     private bool winningRoomSpawned = false;
 
     public static int ActiveRoomNumber { get; private set; }
+    public static string ActiveRoomName => Instance.ActiveRoom.name;
 
 
     public static event Action<RoomManager> OnActivateRoom;
@@ -82,7 +83,7 @@ public class RoomFactory : Singleton<RoomFactory>
     public void TriggerFinishRoom()
     {
         Debug.Log("Finished " + ActiveRoom.name);
-        OnFinishRoom?.Invoke(PreviousRoom);
+        OnFinishRoom?.Invoke(ActiveRoom);
         PreviousRoom = ActiveRoom;
         ActiveRoom = null;
         GameManager.Instance.ChangeState(GameState.BetweenRooms);

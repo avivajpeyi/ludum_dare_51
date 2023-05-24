@@ -363,7 +363,7 @@ namespace Special2dPlayerController {
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
         private bool HasBufferedJump => _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
         private bool CanDoubleJump => _doubleJumpUsable &&  _stats.AllowDoubleJump;
-
+        
         protected virtual void HandleJump() {
             if (_jumpToConsume || HasBufferedJump) {
                 if (_grounded || _onLadder || CanUseCoyote) NormalJump();
@@ -406,7 +406,7 @@ namespace Special2dPlayerController {
         protected virtual void ResetJump() {
             _coyoteUsable = true;
             _bufferedJumpUsable = true;
-            _doubleJumpUsable = false;
+            _doubleJumpUsable = true;
             _endedJumpEarly = false;
         }
 
@@ -588,7 +588,8 @@ namespace Special2dPlayerController {
                 Gizmos.color = Color.yellow;
                 foreach (var wallHit in _wallHits)
                 {
-                    Gizmos.DrawWireSphere(wallHit.ClosestPoint(transform.position), 0.5f);
+                    if (wallHit.GetComponent<Collider>() != null)
+                        Gizmos.DrawWireSphere(wallHit.ClosestPoint(transform.position), 0.5f);
                         
                 }
                 

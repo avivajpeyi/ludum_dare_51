@@ -15,23 +15,28 @@ public class RoomManager : MonoBehaviour
     private Transform _startDoorTransform;
     private Transform _playerReference;
     private Transform _deathZone;
-    private int _requiredItemCount;
     private List<Item> _items;
 
     private void OnEnable()
     {
-        GameManager.OnAfterStateChanged += OnStateChange;
+        RoomFactory.OnFinishRoom += RoomFinished;
     }
     
     private void OnDisable()
     {
-        GameManager.OnAfterStateChanged -= OnStateChange;
+        RoomFactory.OnFinishRoom -= RoomFinished;
     }
-    
-    void OnStateChange(GameState state)
+
+
+    private void RoomFinished(RoomManager r)
     {
-       // If Room Completed, check if all items are collected
-       // if not
+        if (r!=this) return;
+        if (!AllItemsCollected)
+        {
+            GameManager.Instance.TriggerTakeDamage();
+            Debug.Log("Not all items have been collected");
+        }
+
     }
 
 
@@ -78,7 +83,7 @@ public class RoomManager : MonoBehaviour
         transform.position = prevEnd.position - curStart.localPosition;
     }
 
-    public bool AllItemsCollected => CurrentItemCount == _requiredItemCount;
+    public bool AllItemsCollected => CurrentItemCount == RequiredItemCount;
 
     int RequiredItemCount => _items.Count;
     int CurrentItemCount => _items.Count(t => t.isCollected);

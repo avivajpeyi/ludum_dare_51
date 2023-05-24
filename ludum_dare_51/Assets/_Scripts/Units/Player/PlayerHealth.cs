@@ -6,24 +6,26 @@ using DG.Tweening;
 using Special2dPlayerController;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : Singleton<PlayerHealth>
 {
     [SerializeField] private ScriptableStats _stats;
     bool _godMode;
     private GameManager gm;
     private SpriteRenderer _mySpriteRenderer;
+    private float _health;
+    float _regenPerSecond = 0.2f;
     float _damageCooldown;
     bool _justTookDamage;
     private HealthUI _ui;
-    
-    
+    Coroutine _damageCooldownCoroutine;
+    Coroutine _regenCoroutine;
 
     public static int MaxHealth { get; private set; }
 
 
-    static public int CurrentHealth { get; private set; }
+    static public int CurrentHealth => (int) Instance._health;
 
-    Coroutine _damageCooldownCoroutine;
+    
 
     private void Start()
     {
@@ -39,9 +41,10 @@ public class PlayerHealth : MonoBehaviour
     private void ResetHealth()
     {
         MaxHealth = _stats.MaxHealth;
-        CurrentHealth = _stats.MaxHealth;
+        _health = _stats.MaxHealth;
         if (_justTookDamage)
             StopCoroutine(_damageCooldownCoroutine);
+        StopRegen();
         _justTookDamage = false;
         ResetSpriteRender();
     }
@@ -72,7 +75,8 @@ public class PlayerHealth : MonoBehaviour
     private void TakeDamage()
     {
         if (_godMode || _justTookDamage) return;
-        CurrentHealth = Mathf.Max(0, CurrentHealth - 1);
+        StopRegen();
+        _health = Mathf.Max(0, CurrentHealth - 1);
         _ui.UpdateStr(CurrentHealth, MaxHealth);
         _justTookDamage = true;
         Instantiate(_stats.HurtEffect, transform.position, Quaternion.identity);
@@ -84,6 +88,7 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             _damageCooldownCoroutine = StartCoroutine(DamageCooldown());
+            _regenCoroutine = StartCoroutine(RegenerateHealth());
             FlickerSpriteRender();
         }
     }
@@ -92,7 +97,7 @@ public class PlayerHealth : MonoBehaviour
     {
         float flickerDuration = _damageCooldown / numTimes;
         _mySpriteRenderer.DOFade(0f, flickerDuration).SetLoops(numTimes, LoopType.Yoyo)
-        .SetEase(Ease.Flash);
+            .SetEase(Ease.Flash);
     }
 
     private void ResetSpriteRender()
@@ -107,6 +112,19 @@ public class PlayerHealth : MonoBehaviour
         _justTookDamage = false;
         ResetSpriteRender();
     }
+
+    IEnumerator RegenerateHealth()
+    {
+        while (_health < MaxHealth)
+        {
+            yield return Helpers.GetWait(1f);
+            _health = Mathf.Min(MaxHealth, _health + _regenPerSecond);
+            _ui.UpdateStr(CurrentHealth, MaxHealth);
+        }
+    }
+
+    void StopRegen() { if (_regenCoroutine != null) StopCoroutine(_regenCoroutine); }
+
 
     public void Die() => gm.ChangeState(GameState.Lose);
 }

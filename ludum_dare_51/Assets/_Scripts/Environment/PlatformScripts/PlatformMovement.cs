@@ -30,7 +30,6 @@ public class PlatformMovement : MonoBehaviour
         foreach (var pt in patrolPts)
         {
             _points.Add(pt.position);
-            pt.GetComponent<SpriteShapeRenderer>().enabled = false;
         }
     }
     
@@ -118,22 +117,30 @@ public class PlatformMovement : MonoBehaviour
     
     private void OnDrawGizmos() {
         
-        
-        Vector2 p0 = Application.isPlaying ? _startPos : (Vector2)transform.position;
-
         if (isRadial)
         {
             Gizmos.DrawWireSphere(transform.position, radius);
         }
         else
         {
+            
+            if (!Application.isPlaying) {
+                _points = new List<Vector2>();
+                foreach (var pt in patrolPts)
+                {
+                    _points.Add(pt.position);
+                }
+            }
+            
+            
             if (_points==null || _points.Count ==0) return;
             
             Vector2 previous = (Vector2) _points[0];
+            Vector2 last = (Vector2) _points[^1];
             Gizmos.DrawWireSphere(previous, 0.2f);
-            if (_looped) Gizmos.DrawLine(previous, (Vector2) _points[^1]); // ^1 is last index, or _points.Length - 1
+            if (_looped) Gizmos.DrawLine(previous, last); 
             
-            for (var i = 1; i < patrolPts.Count; i++) {
+            for (var i = 1; i < _points.Count; i++) {
                 Vector2 p = (Vector2) _points[i];
                 Gizmos.DrawWireSphere(p, 0.2f);
                 Gizmos.DrawLine(previous, p);

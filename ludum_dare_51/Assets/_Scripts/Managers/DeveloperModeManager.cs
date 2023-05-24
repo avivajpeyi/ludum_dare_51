@@ -29,11 +29,16 @@ public class DebugCommand
 
 public class DeveloperModeManager : MonoBehaviour
 {
+    
+    
+    
+    
     private bool showConsole;
     public List<object> commandList;
     string input = "";
     private GameManager _gm;
     private TimerManager _timerManager;
+    private RoomFactory _roomFactory;
 
 
     public static DebugCommand GOD_MODE;
@@ -73,6 +78,7 @@ public class DeveloperModeManager : MonoBehaviour
     private void Start()
     {
         _gm = GameManager.Instance;
+        _roomFactory = RoomFactory.Instance;
         _timerManager = TimerManager.Instance;
         InitCommands();
 
@@ -123,8 +129,8 @@ public class DeveloperModeManager : MonoBehaviour
     {
         get
         {
-            try {if (_gm.State == GameState.InRoom) return _gm.ActiveRoom.name; }
-            catch (Exception e) {return "No Room"; }
+            try {if (_gm.State == GameState.InRoom) return RoomFactory.ActiveRoomName; }
+            catch (Exception e) {return "ERROR"; }
             return "No Room";
         }
     }
